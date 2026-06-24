@@ -38,9 +38,10 @@ These conventions are shared across all pyTrackers sub-projects.
 
 - Development is on `main` — this is the dev branch.
 - When a minor/major release is tested, push to `release/vMajor.Minor`.
-- At session end, commit all changed source files (Python, JSON, Markdown — NOT `.DS_Store` or binaries).
+- At session end, commit all changed source files (Python, JSON, Markdown — NOT `.DS_Store` or binary PDFs).
 - After every commit, `git push origin main` — pushing is required, not optional.
 - `.claude/sessionLogs/` is gitignored — do not commit session log files.
+- Remote: `git@github.com-fxr:frankrojas6591/houseTracker.git` (uses `~/.ssh/id_ed25519_fxr` via SSH alias `github.com-fxr`)
 
 ---
 
