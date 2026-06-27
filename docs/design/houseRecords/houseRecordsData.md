@@ -476,33 +476,36 @@ Every file under `documents/` is registered in `documents_index.json` with its l
 
 ## Appendix C — Migration Map from GDrive
 
-Current location: `~/GDrive/Family/Assets/KingswayDr`
-Target: `houseTracker-data/kingsway_dr/documents/`
+Source: `~/GDrive/Family/Assets/KingswayDr`
 
-| Current GDrive Path | Target Path |
-|---|---|
-| `Home Docs/Deed.pdf` | `documents/legal/` |
-| `Home Docs/20221106-SellersDisclosureNotice.pdf` | `documents/legal/` |
-| `Home Docs/Survey-*.pdf / .tiff` | `documents/legal/` |
-| `Home Docs/20230117-HUD Settlement Statement-Final.pdf` | `documents/legal/` |
-| `Home Docs/20230201-TitleInsurance.pdf` | `documents/legal/` |
-| `Home Docs/20221231-Contract-Closing-335k_Cash/` | `documents/legal/` |
-| `20230501-HomesteadExemptionForm.pdf` | `documents/legal/` |
-| `20240329-PropTaxPayment.pdf` | `documents/legal/` |
-| `20221113-Inspection/` | `documents/inspection/` |
-| `Reciepts/20221112-HomeInspection.pdf` | `documents/inspection/` |
-| `HomeInsurance/` | `documents/insurance/` |
-| `Reciepts/20250402-Cancel-Choice Home Warranty.pdf` | `documents/insurance/` |
-| `HouseMaintainanceReciepts/Plumbing/` | `documents/plumbing/` |
-| `HouseMaintainanceReciepts/20241130-ElectricalWork.gdoc` | `documents/electrical/` |
-| `HouseMaintainanceReciepts/20250215-LivingKitchenFloors/` | `documents/structural/` |
-| `HomeImprovements/` | `documents/structural/` |
-| `PierMorter2Slab/` | `documents/structural/` |
-| `Home Docs/2016-2017 Celebrity Owners Manual.pdf` | `documents/outdoor/` |
-| `Notebooks/HotTubInfo.ipynb` | `documents/outdoor/` |
-| `HouseMaintainanceReciepts/Water Softner-Filtration.gdoc` | `documents/plumbing/` |
-| `History of Events with Neighbor D.gdoc` | `documents/neighbor/` |
-| `Morg-checklist/` | `documents/financial/` |
-| `Home Docs/20230105-10KLoan-Amplify.pdf` | `documents/financial/` |
-| `HouseMaintainanceReciepts/20160516-AC_Service_*.pdf` | `documents/hvac/` |
-| `HouseMaintainanceReciepts/20161212-Roof_Metal-decking.pdf` | `documents/roofing/` |
+Each GDrive item has **two destinations**: the physical file is copied to `documents/` (not committed to Git); the metadata or event entry is written into the owning agent's JSON under `records/agents/` (committed to Git).
+
+| GDrive Source | `→ documents/` | `→ records/agents/` |
+|---|---|---|
+| `Home Docs/Deed.pdf` | `legal/` | `house_records/legal_records.json` |
+| `Home Docs/20221106-SellersDisclosureNotice.pdf` | `legal/` | `house_records/legal_records.json` |
+| `Home Docs/Survey-*.pdf / .tiff` | `legal/` | `house_records/legal_records.json` |
+| `Home Docs/20230117-HUD Settlement Statement-Final.pdf` | `legal/` | `house_records/legal_records.json` |
+| `Home Docs/20230201-TitleInsurance.pdf` | `legal/` | `house_records/legal_records.json` |
+| `Home Docs/20221231-Contract-Closing-335k_Cash/` | `legal/` | `house_records/legal_records.json` |
+| `20230501-HomesteadExemptionForm.pdf` | `legal/` | `house_records/legal_records.json` |
+| `20240329-PropTaxPayment.pdf` | `legal/` | `house_records/legal_records.json` |
+| `History of Events with Neighbor D.gdoc` | `neighbor/` | `house_records/legal_records.json` |
+| `20221113-Inspection/` (full report) | `inspection/` | `house_records/documents_index.json` |
+| `Reciepts/20221112-HomeInspection.pdf` | `inspection/` | `house_records/documents_index.json` |
+| `HomeInsurance/` (policy docs) | `insurance/` | `house_records/insurance.json` |
+| `Reciepts/20250402-Cancel-Choice Home Warranty.pdf` | `insurance/` | `house_records/insurance.json` |
+| `Morg-checklist/` (income, tax, ID docs) | `financial/` | `house_records/documents_index.json` (archive) |
+| `Home Docs/20230105-10KLoan-Amplify.pdf` | `financial/` | `house_records/documents_index.json` |
+| `HouseMaintainanceReciepts/Plumbing/` (invoices, notes) | `plumbing/` | `plumbing/maintenance_log.json` |
+| `HouseMaintainanceReciepts/Plumbing/kingswaySewer2D.ipynb` | `plumbing/` | `plumbing/sewer_diagram.json` *(data extraction — not just file copy)* |
+| `HouseMaintainanceReciepts/Plumbing/photos/` | `plumbing/photos/` | `plumbing/maintenance_log.json` (file refs) |
+| `HouseMaintainanceReciepts/Water Softner-Filtration.gdoc` | `plumbing/` | `plumbing/systems.json` |
+| `HouseMaintainanceReciepts/20241130-ElectricalWork.gdoc` | `electrical/` | `electrical/maintenance_log.json` |
+| `HouseMaintainanceReciepts/20160516-AC_Service_*.pdf` | `hvac/` | `hvac/systems.json` |
+| `HouseMaintainanceReciepts/20161212-Roof_Metal-decking.pdf` | `roofing/` | `roofing/systems.json` |
+| `HouseMaintainanceReciepts/20250215-LivingKitchenFloors/` (photos, notes) | `structural/` | `architecture/structural_notes.json` + `financing/capital_improvements.json` |
+| `HomeImprovements/` (window contract, cancelled) | `structural/` | `architecture/structural_notes.json` |
+| `PierMorter2Slab/` (research notebooks) | `structural/` | `architecture/structural_notes.json` (open project) |
+| `Home Docs/2016-2017 Celebrity Owners Manual.pdf` | `outdoor/` | `appliances/registry.json` |
+| `Notebooks/HotTubInfo.ipynb` | `outdoor/` | `appliances/registry.json` |
