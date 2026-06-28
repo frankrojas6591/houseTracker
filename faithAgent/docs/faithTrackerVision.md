@@ -1,9 +1,11 @@
-# faithTracker Vision
+# faithAgent Vision
 
-**Version:** 0.1 (Design Draft)
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
+**Version:** 0.2 (Design Draft)
 **Author:** Frank Rojas
 **Date:** June 2026
-**Parent:** [Personal Assistant Vision](../../lifeTracker/docs/personalAssistanceVision.md)
+**Parent:** [lifeTracker Vision](../../docs/lifeTrackerVision.md)
 **UANS namespace:** `faith.*`
 
 ---
@@ -12,9 +14,9 @@
 
 Faith is not a weekend activity — it is a practice. And like any practice, it has structure, rhythm, and seasons. A Catholic life is shaped by daily prayer, the Eucharist, the liturgical calendar, the sacraments, the examination of conscience, and works of service. These practices compound. They build spiritual resilience that shows up everywhere else in life — in how grief is processed, in how uncertainty is held, in how legacy is understood.
 
-The **faithTracker** is not a piety meter or a sin ledger. It is a *practice companion* — a structured witness to your spiritual life that helps you see where you are in the rhythms of faith, notice when the practice drops, and prepare thoughtfully for the end of life in a way that is spiritually grounded.
+The **faithAgent** is not a piety meter or a sin ledger. It is a *practice companion* — a structured witness to your spiritual life that helps you see where you are in the rhythms of faith, notice when the practice drops, and prepare thoughtfully for the end of life in a way that is spiritually grounded.
 
-> The Ignatian tradition calls it the Examen — a daily review of where God was present and where you moved toward or away from that presence. The faithTracker makes this practice habitual and cumulative, so that over months and years, you can see the arc of your spiritual life, not just today's mood.
+> The Ignatian tradition calls it the Examen — a daily review of where God was present and where you moved toward or away from that presence. The faithAgent makes this practice habitual and cumulative, so that over months and years, you can see the arc of your spiritual life, not just today's mood.
 
 In the 70s, the spiritual tasks are specific and urgent: building an integrated sense of life meaning (legacy), preparing for death in the full Catholic tradition, maintaining the community ties that sustain faith as mobility decreases, and giving the next generation what only you can give — the transmission of values, faith, and story.
 
@@ -76,11 +78,11 @@ The Catholic year has five seasons. Every practice log entry is tagged with the 
 
 ## 3. Ignatian Spiritual Direction
 
-The faithTracker's reflection layer is grounded in **Ignatian Spirituality** — specifically the Daily Examen and the framework of consolation/desolation.
+The faithAgent's reflection layer is grounded in **Ignatian Spirituality** — specifically the Daily Examen and the framework of consolation/desolation.
 
 ### 3.1 The Daily Examen (5 Steps)
 
-The Examen is a 10–15 minute daily prayer of review. The faithTracker LLM agent guides this interactively or accepts a free-form reflection and structures it into five sections:
+The Examen is a 10–15 minute daily prayer of review. The faithAgent LLM agent guides this interactively or accepts a free-form reflection and structures it into five sections:
 
 1. **Presence** — Become aware of God's presence in this moment
 2. **Gratitude** — Review the day; identify gifts received
@@ -98,11 +100,11 @@ Ignatius defined the spiritual temperature of the soul in two states:
 | **Neutral** | Ordinary — neither pulled toward nor away | 0 |
 | **Desolation** | Spiritual heaviness, isolation, distraction, diminished prayer, movement away from God | -1 to -3 |
 
-The `consolation_score` is the primary cross-tracker signal to emotionalTracker. A sustained desolation trend (score ≤ −1 for 7+ days) triggers an alert and suggests a deeper reflection prompt.
+The `consolation_score` is the primary cross-agent signal to emotionalAgent. A sustained desolation trend (score ≤ −1 for 7+ days) triggers an alert and suggests a deeper reflection prompt.
 
 ### 3.3 Discernment Framework
 
-For major life decisions with a faith dimension (estate choices, end-of-life preferences, major service commitments), the faithTracker logs the discernment process: the question, the period of prayer and reflection, the movements felt (consolation / desolation), and the resolution. This becomes part of the ethical will.
+For major life decisions with a faith dimension (estate choices, end-of-life preferences, major service commitments), the faithAgent logs the discernment process: the question, the period of prayer and reflection, the movements felt (consolation / desolation), and the resolution. This becomes part of the ethical will.
 
 ---
 
@@ -111,7 +113,7 @@ For major life decisions with a faith dimension (estate choices, end-of-life pre
 | Challenge | Tracking Approach |
 |---|---|
 | **Legacy and generativity** | Ethical will journal — structured prompts each month for values, stories, and blessings to pass on |
-| **Grief of peers and community thinning** | Grief entries with prayer intention; rosary offered for the deceased; grief log linked to emotionalTracker |
+| **Grief of peers and community thinning** | Grief entries with prayer intention; rosary offered for the deceased; grief log linked to emotionalAgent |
 | **Anticipatory death preparation** | Advance spiritual care directive (see §7); spiritual preparation for death is a first-class record, not an afterthought |
 | **Anointing of the Sick** | Each celebration logged with date, priest, and circumstances — this record becomes essential at end of life |
 | **Community continuity** | Parish role and engagement tracking; alert when engagement drops significantly (mobility-related isolation risk) |
@@ -140,7 +142,7 @@ Pulls from LiturgicalCalendarAPI and caches the full year. Serves as a lookup fo
 Scaffolds the ethical will — a written document passing on values, faith, stories, and blessings to the next generation. Monthly structured prompts; drafts saved and refined over time. Separate from the legal will (which handles possessions); this handles meaning.
 
 ### 5.7 CharitableGiving Agent (`faith.charitable.giving`)
-Tracks donations, tithing, legacy gift pledges (to parish, diocese, or Catholic charities), and Corporal Works of Mercy hours. Feeds estateTracker's beneficiary and bequest records.
+Tracks donations, tithing, legacy gift pledges (to parish, diocese, or Catholic charities), and Corporal Works of Mercy hours. Feeds estateAgent's beneficiary and bequest records.
 
 ---
 
@@ -210,7 +212,7 @@ faith.*
 
 ## 7. Advance Spiritual Care Directive
 
-A first-class record that lives in faithTracker and is referenced by medicalTracker and estateTracker:
+A first-class record that lives in faithAgent and is referenced by medicalAgent and estateAgent:
 
 ```json
 {
@@ -227,13 +229,13 @@ A first-class record that lives in faithTracker and is referenced by medicalTrac
 
 ---
 
-## 8. Cross-Tracker Integration
+## 8. Cross-Agent Integration
 
-| Tracker | What faithTracker Sends | What It Receives |
+| Agent | What faithAgent Sends | What It Receives |
 |---|---|---|
-| **emotionalTracker** | `consolation_score` (daily); grief event when peer/family dies | Major life events that may need spiritual response |
-| **medicalTracker** | Advance spiritual care directive; anointing history | Health events that suggest spiritual preparation |
-| **estateTracker** | Charitable bequest intentions; ethical will draft | Estate events that may need faith-informed discernment |
+| **emotionalAgent** | `consolation_score` (daily); grief event when peer/family dies | Major life events that may need spiritual response |
+| **medicalAgent** | Advance spiritual care directive; anointing history | Health events that suggest spiritual preparation |
+| **estateAgent** | Charitable bequest intentions; ethical will draft | Estate events that may need faith-informed discernment |
 | **PersonalAssistant** | Community commitments (for calendar); consolation trend (for emotional load calibration) | Monthly life event stream (enables prayer intention logging for major events across domains) |
 
 ---
@@ -242,7 +244,7 @@ A first-class record that lives in faithTracker and is referenced by medicalTrac
 
 ### 9.1 ExamenReflection LLM
 
-The LLM's role in faithTracker is the most carefully constrained of all trackers:
+The LLM's role in faithAgent is the most carefully constrained of all agents:
 
 - **Persona**: structured Examen guide — asks the five questions, listens, reflects back what it heard
 - **NOT**: spiritual director, confessor, or theological advisor
@@ -261,15 +263,15 @@ Monthly rotating prompts for the ethical will — generated by the LLM based on 
 
 ## 10. Design Principles
 
-1. **Structure is a gift, not a burden.** The Catholic spiritual life has centuries of tested structure — the Examen, the liturgical calendar, the sacraments. The faithTracker does not invent a new framework; it makes the existing framework habitual and visible.
+1. **Structure is a gift, not a burden.** The Catholic spiritual life has centuries of tested structure — the Examen, the liturgical calendar, the sacraments. The faithAgent does not invent a new framework; it makes the existing framework habitual and visible.
 
-2. **The consolation score is the primary signal.** One number, tracked daily, tells more about the spiritual life than any other metric. It is also the most important cross-tracker signal to emotionalTracker.
+2. **The consolation score is the primary signal.** One number, tracked daily, tells more about the spiritual life than any other metric. It is also the most important cross-agent signal to emotionalAgent.
 
-3. **End-of-life preparation is not morbid — it is faithful.** The advance spiritual care directive, the sacramental history, the ethical will — these are gifts the tracker helps the owner prepare while they have the clarity and the time.
+3. **End-of-life preparation is not morbid — it is faithful.** The advance spiritual care directive, the sacramental history, the ethical will — these are gifts faithAgent helps the owner prepare while they have the clarity and the time.
 
-4. **No replacement of human community.** The faithTracker does not substitute for a confessor, a spiritual director, or a parish community. It supports and strengthens the practice that connects to those human relationships.
+4. **No replacement of human community.** The faithAgent does not substitute for a confessor, a spiritual director, or a parish community. It supports and strengthens the practice that connects to those human relationships.
 
-5. **Voice-friendly, never burdensome.** The daily check-in is three questions. The Examen is five. The monthly ethical will prompt is one. The faithTracker must never feel like homework.
+5. **Voice-friendly, never burdensome.** The daily check-in is three questions. The Examen is five. The monthly ethical will prompt is one. The faithAgent must never feel like homework.
 
 ---
 
@@ -279,8 +281,8 @@ Monthly rotating prompts for the ethical will — generated by the LLM based on 
 |---|---|
 | 0 | Records scaffold; liturgical calendar cache populated for current year |
 | 1 | DailyPractice agent — voice check-in; practice log written; liturgical context auto-tagged |
-| 2 | ExamenReflection agent — guided Examen via voice; consolation score logged; cross-posted to emotionalTracker |
+| 2 | ExamenReflection agent — guided Examen via voice; consolation score logged; cross-posted to emotionalAgent |
 | 3 | SacramentalHistory — back-fill known confession/anointing dates; advance spiritual care directive drafted |
 | 4 | EthicalWill agent — first ethical will session; monthly prompts active |
-| 5 | CommunityLife + CharitableGiving — parish roles and giving tracked; bequest intentions fed to estateTracker |
+| 5 | CommunityLife + CharitableGiving — parish roles and giving tracked; bequest intentions fed to estateAgent |
 | 6 | PersonalAssistant integration — consolation trend and community commitments surface in monthly check-in |

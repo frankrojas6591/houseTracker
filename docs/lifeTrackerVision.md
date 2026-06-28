@@ -1,6 +1,8 @@
 # lifeTracker — Vision & Design
 
-**Version:** 1.0
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
+**Version:** 1.1
 **Author:** Frank Rojas
 **Date:** June 2026
 
@@ -10,7 +12,7 @@
 
 **lifeTracker** is the repository for a personal life management ecosystem — a **Personal Assistant (PA)** orchestrator backed by six discipline agents, each an expert in one domain of life. One voice call. One web app. One shared communication layer.
 
-**Design principle: One tracker, six discipline agents.**
+**Design principle: One Personal Assistant, six expert agents.**
 
 ```
 lifeTracker/
@@ -65,13 +67,13 @@ The PA is built for this stage:
 ```
 ╔══════════════════════════════════════════════════════════════════════════╗
 ║  COMMUNICATION CHANNELS (shared across all agents)                       ║
-║  (A) iPhone Voice     (B) PA Web UI        (C) Local Mac UI             ║
+║  (A) iPhone Voice     (B) PA Web UI        (C) iPhone / laptop          ║
 ║  Call Twilio number   Browser → PA URL     Browser → :5000              ║
 ╚══════════════════════════════════════════════════════════════════════════╝
                     │ Twilio webhook  │ HTTPS  │ HTTP
                     ▼                 ▼        ▼
 ╔══════════════════════════════════════════════════════════════════════════╗
-║  pytracker.core  (shared Python package)                                 ║
+║  Communication Agent  (pytracker.core)                                   ║
 ║  Auth · IntentParser (Haiku) · ResponseSynthesizer (Sonnet)              ║
 ║  VoiceResponder · SessionManager · ActionItemQueue                       ║
 ╚══════════════════════════════════════════════════════════════════════════╝
@@ -485,7 +487,7 @@ One voice channel, one web app, one user identity — all agents surface through
 | Ingestion services | Each agent builds its own data ingestion from external sources |
 | UANS namespace | `house.*`, `medical.*`, `money.*`, etc. |
 
-### 7.3 pytracker.core Package
+### 7.3 Communication Agent (pytracker.core)
 
 ```
 pytracker-core/
@@ -613,7 +615,7 @@ Triggered annually or at a major life event (health change, death of spouse, lar
 
 | Phase | Component | Milestone |
 |---|---|---|
-| 0 | `pytracker.core` — shared comm layer | One voice number routes to one PA; auth works |
+| 0 | Communication Agent — shared comm layer | One voice number routes to one PA; auth works |
 | 0 | RecordAgent — records infrastructure | Directory tree provisioned; read/write/git-push interface working |
 | 1 | PersonalAssistant (lifeTracker) — orchestrator | Monthly check-in loop runs end-to-end with stub responses |
 | 2 | houseAgent — Tier 1 agents | First discipline agent integrated; house queries answered by voice |
@@ -626,4 +628,4 @@ Triggered annually or at a major life event (health change, death of spouse, lar
 
 ---
 
-*This document is v1.0 — authoritative ecosystem design. Supersedes `personalAssistanceVision.md` and `lifeVision.md`. See individual agent vision docs for per-discipline detail. Diagram: `docs/lifeTrackerDiagram.svg`.*
+*This document is v1.1 — authoritative ecosystem design. Supersedes `personalAssistanceVision.md` and `lifeVision.md`. See individual agent vision docs for per-discipline detail. Diagram: `docs/lifeTrackerDiagram.svg`.*

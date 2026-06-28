@@ -1,6 +1,6 @@
 # lifeTracker
 
-**Personal Assistance Ecosystem — One Tracker, Six Discipline Agents**
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
 
 A personal AI system that sits above every domain of life — home, health, money, estate, relationships, and faith — and keeps nothing dark.
 
@@ -8,7 +8,7 @@ A personal AI system that sits above every domain of life — home, health, mone
 
 ## Design Principle
 
-**One tracker. Six discipline agents.**
+**One Trusted Advisor/Advocate backed by six expert agents.**
 
 You have one voice number, one web app, one trusted point of contact: the **Personal Assistant (PA)**. The PA knows your whole life, not just one domain. All six agents report up to it.
 
@@ -81,7 +81,7 @@ Covers: system architecture, all six agents, Universal Agent Naming Schema (UANS
 |---|---|
 | **Language** | Python |
 | **Framework** | CrewAI / LangGraph (multi-agent orchestration) |
-| **Shared package** | `pytracker.core` — comm · auth · records · llm · models |
+| **Shared package** | `Communication Agent (pytracker.core)` — comm · auth · records · llm · models |
 | **Records store** | `lifeTracker-data` — private Git repo, JSON, `auto_push=true` |
 | **LLM** | IntentParser: Claude Haiku · ResponseSynthesizer: Claude Sonnet |
 | **Voice** | Twilio (one number for all agents) |

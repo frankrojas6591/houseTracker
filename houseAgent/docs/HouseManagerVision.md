@@ -1,5 +1,7 @@
 # HouseMgr Vision
 
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
 **Version:** 0.5 (Draft for iteration)
 **Author:** Frank Rojas
 **Date:** June 2026
@@ -224,7 +226,7 @@ Each discipline agent is an expert in its domain with a persistent memory of the
 
 | UANS | Agent | Synopsis |
 |---|---|---|
-| `house.life.accessibility` | **Accessibility & Aging-in-Place** | Fall prevention, mobility modifications, smart home independence, and medicalTracker integration. |
+| `house.life.accessibility` | **Accessibility & Aging-in-Place** | Fall prevention, mobility modifications, smart home independence, and medicalAgent integration. |
 
 ---
 
@@ -325,7 +327,7 @@ These questions were raised in v0.1 and resolved by the owner.
 | **Utility data** | Will integrate with the `moneyAgent` (lifeTracker discipline agent). Financing and HVAC agents receive utility bill data from that integration |
 | **Notification channel** | Monthly check-in via the app. App tracks and logs whether monthly check-ins are completed. Urgent items escalate immediately via the Communication agent |
 | **Agent architecture** | Hybrid: each agent has access to LLM-based domain expertise pulled into the task at hand, plus a house-specific knowledge base managed by HouseRecords. Industry best practices vs. house-specific facts are kept distinct |
-| **pyTrackers integration** | No shared infrastructure with `llcRentalTracker`. Any cross-tracker integration will be explicitly designed when the need arises |
+| **pyTrackers integration** | No shared infrastructure with `llcRentalTracker`. Any cross-agent integration will be explicitly designed when the need arises |
 | **Data residency** | Local/on-premises. All records, floor plans, documents, and financial data live in the HouseRecords DB — managed by the HouseRecords Agent. No cloud dependency for sensitive data |
 
 ---

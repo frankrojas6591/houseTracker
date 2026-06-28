@@ -1,18 +1,20 @@
-# emotionalTracker Vision
+# emotionalAgent Vision
 
-**Version:** 0.1 (Design Draft)
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
+**Version:** 0.2 (Design Draft)
 **Author:** Frank Rojas
 **Date:** June 2026
-**Parent:** [Personal Assistant Vision](../../lifeTracker/docs/personalAssistanceVision.md)
+**Parent:** [lifeTracker Vision](../../docs/lifeTrackerVision.md)
 **UANS namespace:** `emotional.*`
 
 ---
 
-## 1. Why an Emotional Tracker?
+## 1. Why an emotionalAgent?
 
 The emotional life of a person in their 70s is not simpler than it was at 40 — it is more complex. Cumulative grief accumulates. Identity shifts as productive roles give way to elder roles. Fear of cognitive decline runs as background noise. Social networks thin naturally. And underneath all of it runs the deepest developmental task of late life: building integrity — the honest acceptance of one's life as it was lived — or sliding toward despair.
 
-Most people in this life stage have no structured support for this inner work. A therapist sees you 50 minutes a week. A doctor may ask "how are you feeling?" in a two-minute check. Family means well but cannot be objective. The **emotionalTracker** fills this gap — not as a therapist or a companion, but as a *structured witness* that knows your emotional history deeply and helps you see patterns you cannot see yourself.
+Most people in this life stage have no structured support for this inner work. A therapist sees you 50 minutes a week. A doctor may ask "how are you feeling?" in a two-minute check. Family means well but cannot be objective. The **emotionalAgent** fills this gap — not as a therapist or a companion, but as a *structured witness* that knows your emotional history deeply and helps you see patterns you cannot see yourself.
 
 > The goal is not to make you feel better in the moment. It is to help you understand where you are emotionally — and to surface that understanding to you, to your medical team, and to the PersonalAssistant that coordinates your life.
 
@@ -20,7 +22,7 @@ Most people in this life stage have no structured support for this inner work. A
 
 ## 2. Clinical Foundation
 
-The emotionalTracker is grounded in three evidence-based frameworks with the strongest support for adults in their 70s:
+The emotionalAgent is grounded in three evidence-based frameworks with the strongest support for adults in their 70s:
 
 ### 2.1 Unified Protocol (Transdiagnostic CBT)
 
@@ -50,7 +52,7 @@ The organizing life-stage lens for the 70s. Every session has a background signa
 - **Integrity pathway**: life review that reaches acceptance, wisdom, gratitude for what was. Legacy work — stories, values transmission, relationships. Presence with what is rather than grief over what is not.
 - **Despair pathway**: inability to accept the life lived; bitterness, regret, isolation, hopelessness. Untreated complicated grief often fuels despair.
 
-The emotionalTracker tracks movement along this axis as a slow-moving signal across months, not a daily score.
+The emotionalAgent tracks movement along this axis as a slow-moving signal across months, not a daily score.
 
 ### 2.4 Grief — Worden's Tasks of Mourning
 
@@ -71,8 +73,8 @@ When a loss is logged, the tracker records which tasks are in progress and flags
 |---|---|
 | **Cumulative grief** — loss of peers, siblings, spouse compounds | Each loss logged independently with task stage; a running grief load score surfaces when multiple active grief threads exist |
 | **Identity transition** — loss of productive role (career, parenting) | Values-alignment score; legacy work entries; role description field that evolves over time |
-| **Anticipatory grief** — preparation for one's own death | Explicit tracking mode: "forward grief" entries separate from loss grief; ties to faithTracker's end-of-life preparation |
-| **Cognitive anxiety** — fear of dementia (distinct from clinical assessment) | Dedicated field; does NOT attempt to assess cognition — surfaces to medicalTracker for clinical evaluation |
+| **Anticipatory grief** — preparation for one's own death | Explicit tracking mode: "forward grief" entries separate from loss grief; ties to faithAgent's end-of-life preparation |
+| **Cognitive anxiety** — fear of dementia (distinct from clinical assessment) | Dedicated field; does NOT attempt to assess cognition — surfaces to medicalAgent for clinical evaluation |
 | **Social thinning** — natural shrinkage of network | Social contact frequency and quality; isolation flag triggers PersonalAssistant alert when social contact drops below baseline for 2+ weeks |
 | **Legacy and meaning** — primary protective factor against despair | Legacy work journal entries; values transmission notes; prompted monthly |
 
@@ -103,19 +105,19 @@ The LLM layer applies CBT/ACT lenses to the free text, extracts cognitive patter
 
 ### 4.2 GriefCompanion Agent (`emotional.grief.companion`)
 
-Activated when a loss is logged. Tracks progress through Worden's four tasks. Prompts gently on the natural timeline. Flags complicated grief indicators to medicalTracker.
+Activated when a loss is logged. Tracks progress through Worden's four tasks. Prompts gently on the natural timeline. Flags complicated grief indicators to medicalAgent.
 
 ---
 
 ### 4.3 LifeReview Agent (`emotional.legacy.review`)
 
-Monthly. Draws from journal entries and cross-tracker events to surface the emotional arc of the month. Frames it in Erikson Stage 8 terms: what moved toward integrity, what needs attention.
+Monthly. Draws from journal entries and cross-agent events to surface the emotional arc of the month. Frames it in Erikson Stage 8 terms: what moved toward integrity, what needs attention.
 
 ---
 
 ### 4.4 StressMonitor Agent (`emotional.stress.monitor`)
 
-Subscribes to stress-flagged events from all other trackers. Correlates domain stress (financial, home, health) with mood scores. Surfaces pattern: "Your mood scores drop significantly in the 2 weeks after a major house expense."
+Subscribes to stress-flagged events from all other agents. Correlates domain stress (financial, home, health) with mood scores. Surfaces pattern: "Your mood scores drop significantly in the 2 weeks after a major house expense."
 
 ---
 
@@ -173,14 +175,14 @@ emotional.*
 
 ---
 
-## 6. Cross-Tracker Integration
+## 6. Cross-Agent Integration
 
-| Tracker | What emotionalTracker Receives | What It Sends |
+| Agent | What emotionalAgent Receives | What It Sends |
 |---|---|---|
-| **medicalTracker** | Diagnosis events, chronic pain scores, medication changes — all elevate depression/anxiety risk | Mood trend and distress scores; complicated grief flags; cognitive anxiety entries |
-| **moneyTracker** | Financial stress events (unexpected expenses, market losses, estate decisions) | Emotional load level (informs how much moneyTracker should surface at once) |
-| **houseTracker** | Home crises (major repairs, relocation risk) — identity threat for seniors | None directly |
-| **faithTracker** | Mass attendance, prayer consistency, community engagement (resilience factors) | Life-stage emotional context; grief entries that may need spiritual support |
+| **medicalAgent** | Diagnosis events, chronic pain scores, medication changes — all elevate depression/anxiety risk | Mood trend and distress scores; complicated grief flags; cognitive anxiety entries |
+| **moneyAgent** | Financial stress events (unexpected expenses, market losses, estate decisions) | Emotional load level (informs how much moneyAgent should surface at once) |
+| **houseAgent** | Home crises (major repairs, relocation risk) — identity threat for seniors | None directly |
+| **faithAgent** | Mass attendance, prayer consistency, community engagement (resilience factors) | Life-stage emotional context; grief entries that may need spiritual support |
 | **PersonalAssistant** | Priority arbitration context; overall life event stream | Current emotional load level; crisis flags (immediate escalation); weekly trend summary |
 
 ---
@@ -230,6 +232,6 @@ This is a personal tool — not a clinical service. The following guardrails are
 | 0 | Records scaffold — UANS directory tree, stub JSON files |
 | 1 | DailyCheckIn agent — voice check-in via Twilio; JSON record written; mood trend visible in web UI |
 | 2 | GriefCompanion agent — loss logging, Worden task tracking, complicated grief flag |
-| 3 | StressMonitor — subscribe to cross-tracker stress events; correlation surfacing |
+| 3 | StressMonitor — subscribe to cross-agent stress events; correlation surfacing |
 | 4 | LifeReview agent — monthly summary, Erikson framing, legacy journal |
 | 5 | PersonalAssistant integration — emotional load informs PA routing and communication style |

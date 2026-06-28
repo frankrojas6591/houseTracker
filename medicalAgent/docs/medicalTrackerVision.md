@@ -1,9 +1,11 @@
-# medicalTracker Vision
+# medicalAgent Vision
 
-**Version:** 0.2 (Design Draft — supersedes initial design doc)
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
+**Version:** 0.3 (Design Draft — supersedes initial design doc)
 **Author:** Frank Rojas
 **Date:** June 2026
-**Parent:** [Personal Assistant Vision](../../lifeTracker/docs/personalAssistanceVision.md)
+**Parent:** [lifeTracker Vision](../../docs/lifeTrackerVision.md)
 **UANS namespace:** `medical.*`
 
 ---
@@ -12,7 +14,7 @@
 
 A person who has lived to their 70s has accumulated decades of medical history distributed across dozens of doctors, labs, portals, and paper files. That history lives in the heads of physicians who have retired, in MyChart portals that don't talk to each other, in a "health folder" that contains a hopgepodge of test results and discharge summaries, and in the owner's own memory — the least reliable archive of all.
 
-The **medicalTracker** is the institutional memory of one person's health. It knows every condition, every medication, every lab result trend, every specialist, every test, and every care preference. It is not a doctor. It is the one entity that has read everything and remembers all of it — so that when you walk into an appointment, you are not starting from scratch.
+The **medicalAgent** is the institutional memory of one person's health. It knows every condition, every medication, every lab result trend, every specialist, every test, and every care preference. It is not a doctor. It is the one entity that has read everything and remembers all of it — so that when you walk into an appointment, you are not starting from scratch.
 
 > A personalized medical tracker is, in the deepest sense, one and the same with the individual. It is the individual — because it has incorporated all knowledge about every aspect of their health. As the individual changes, so does the tracker.
 
@@ -22,7 +24,7 @@ The specific mission for a person in their 70s: know this individual at a very d
 
 ## 2. Clinical Data Model — FHIR R4
 
-The **HL7 FHIR R4** (4.0.1) standard is the canonical clinical data model. It is what Epic MyChart exposes via API, what Apple Health uses internally, and what the 21st Century Cures Act mandates for patient data portability. The medicalTracker does not run a FHIR server — it stores a local JSON subset modeled on FHIR field names so that future import/export from any Epic/MyChart source is trivial.
+The **HL7 FHIR R4** (4.0.1) standard is the canonical clinical data model. It is what Epic MyChart exposes via API, what Apple Health uses internally, and what the 21st Century Cures Act mandates for patient data portability. The medicalAgent does not run a FHIR server — it stores a local JSON subset modeled on FHIR field names so that future import/export from any Epic/MyChart source is trivial.
 
 ### Core FHIR Resources Tracked
 
@@ -76,11 +78,11 @@ The **5M's of Geriatric Medicine** (Tinetti, Huang & Molnar, 2017; Age-Friendly 
 
 | M | Domain | Key Data | Agent Behavior |
 |---|---|---|---|
-| **Mind** | Cognition + mental health | MMSE/MoCA scores, PHQ-9 depression screen, cognitive event notes | Alert on change patterns; link to emotionalTracker |
-| **Mobility** | Fall risk, physical function | Gait assessment, fall history, venous insufficiency status, PT notes, exercise log | Mobility decline → houseTracker accessibility alert |
+| **Mind** | Cognition + mental health | MMSE/MoCA scores, PHQ-9 depression screen, cognitive event notes | Alert on change patterns; link to emotionalAgent |
+| **Mobility** | Fall risk, physical function | Gait assessment, fall history, venous insufficiency status, PT notes, exercise log | Mobility decline → houseAgent accessibility alert |
 | **Medications** | Polypharmacy safety | Full medication list; Beers Criteria review; drug interaction flags | Run Beers check at each medication change; alert on age-inappropriate drugs |
 | **Multi-complexity** | Comorbidity burden | Conditions list with ICD-10, active/inactive, treating specialist | Show comorbidity interaction map; flag when conditions affect each other |
-| **Matters Most** | Patient goals and values | Advance directive, POLST, care preferences, personal goal statements | Surface at appointment prep; feed advance spiritual care directive from faithTracker |
+| **Matters Most** | Patient goals and values | Advance directive, POLST, care preferences, personal goal statements | Surface at appointment prep; feed advance spiritual care directive from faithAgent |
 
 ---
 
@@ -108,10 +110,10 @@ Pulls CPAP session data from ResMed myAir API (`resmed_myair_sensors`) or from S
 Tracks past and upcoming appointments: provider, specialty, date, type, reason, notes, and follow-up actions. Generates appointment prep summaries (recent labs, medication changes, open questions) via the LLM layer.
 
 ### 5.8 DirectivesKeeper Agent (`medical.directives.advance`)
-Tracks advance healthcare directive, POLST, DNR preferences, healthcare proxy designation, and organ donor status. Links to faithTracker's advance spiritual care directive. Surfaces to estateTracker for estate plan currency.
+Tracks advance healthcare directive, POLST, DNR preferences, healthcare proxy designation, and organ donor status. Links to faithAgent's advance spiritual care directive. Surfaces to estateAgent for estate plan currency.
 
 ### 5.9 FiveMsAssessment Agent (`medical.geriatrics.fivems`)
-Maintains the structured 5M's assessment as a sub-document updated at major health events or annually. The primary signal source for cross-tracker integration (mobility → houseTracker, mind → emotionalTracker, Matters Most → faithTracker + estateTracker).
+Maintains the structured 5M's assessment as a sub-document updated at major health events or annually. The primary signal source for cross-agent integration (mobility → houseAgent, mind → emotionalAgent, Matters Most → faithAgent + estateAgent).
 
 ---
 
@@ -301,28 +303,28 @@ Query: "How has my blood pressure trended this year?"
 
 ---
 
-## 10. Cross-Tracker Integration
+## 10. Cross-Agent Integration
 
-| Tracker | What medicalTracker Sends | What It Receives |
+| Agent | What medicalAgent Sends | What It Receives |
 |---|---|---|
-| **emotionalTracker** | Diagnosis events, medication changes, procedure/surgery dates, hospitalization — all elevate depression/anxiety risk | PHQ-9 score, mood trend (mental health → physical health link) |
-| **houseTracker** | Mobility decline flag, fall event, new diagnosis affecting physical function (venous insufficiency, balance issues) | Accessibility modifications completed |
-| **estateTracker** | Longevity P50/P90 estimate, long-term care cost projection, advance directive status | None |
-| **moneyTracker** | HSA-eligible expense events, insurance premium amounts, out-of-pocket tracking | HSA balance, insurance coverage details |
-| **faithTracker** | None directly | Advance spiritual care directive (priest at death, last rites preference) |
-| **PersonalAssistant** | Monthly health summary (conditions, medications, upcoming appointments, 5M's alert) | Cross-tracker event stream (for context in health queries) |
+| **emotionalAgent** | Diagnosis events, medication changes, procedure/surgery dates, hospitalization — all elevate depression/anxiety risk | PHQ-9 score, mood trend (mental health → physical health link) |
+| **houseAgent** | Mobility decline flag, fall event, new diagnosis affecting physical function (venous insufficiency, balance issues) | Accessibility modifications completed |
+| **estateAgent** | Longevity P50/P90 estimate, long-term care cost projection, advance directive status | None |
+| **moneyAgent** | HSA-eligible expense events, insurance premium amounts, out-of-pocket tracking | HSA balance, insurance coverage details |
+| **faithAgent** | None directly | Advance spiritual care directive (priest at death, last rites preference) |
+| **PersonalAssistant** | Monthly health summary (conditions, medications, upcoming appointments, 5M's alert) | Cross-agent event stream (for context in health queries) |
 
 ---
 
 ## 11. Design Principles
 
-1. **This is the individual's own record, not the doctor's.** The medicalTracker holds what the individual knows, believes, and has experienced — including things not in any EHR. It supplements the clinical record; it does not replace it.
+1. **This is the individual's own record, not the doctor's.** The medicalAgent holds what the individual knows, believes, and has experienced — including things not in any EHR. It supplements the clinical record; it does not replace it.
 
 2. **FHIR R4 field names as the schema.** Using FHIR field names for local JSON records means zero translation work when importing from or exporting to any Epic/MyChart-compatible system.
 
-3. **The 5M's are the clinical lens, not a checkbox.** The 5M's assessment is a living document, not a one-time intake form. It updates at every major health event and drives the cross-tracker integration signals.
+3. **The 5M's are the clinical lens, not a checkbox.** The 5M's assessment is a living document, not a one-time intake form. It updates at every major health event and drives the cross-agent integration signals.
 
-4. **Labs are a time series, not a snapshot.** One HbA1c reading is a data point. Five readings over three years is a trend. The tracker stores every result and surfaces the trend, not just the latest.
+4. **Labs are a time series, not a snapshot.** One HbA1c reading is a data point. Five readings over three years is a trend. medicalAgent stores every result and surfaces the trend, not just the latest.
 
 5. **CPAP data is a vital sign.** AHI and usage are as important as blood pressure for a person with sleep apnea. They belong in the vitals layer with daily tracking.
 
@@ -342,4 +344,4 @@ Query: "How has my blood pressure trended this year?"
 | 5 | 5M's Assessment — initial structured assessment; Beers Criteria check on medication list |
 | 6 | DirectivesKeeper — advance healthcare directive drafted; POLST preferences documented |
 | 7 | LLM layer — RAG over health history; appointment prep summaries; lab trend explanations |
-| 8 | Cross-tracker integration — mobility alerts to houseTracker; health events to emotionalTracker; longevity model to estateTracker |
+| 8 | Cross-agent integration — mobility alerts to houseAgent; health events to emotionalAgent; longevity model to estateAgent |

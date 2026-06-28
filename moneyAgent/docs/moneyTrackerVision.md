@@ -1,9 +1,11 @@
-# moneyTracker Vision
+# moneyAgent Vision
 
-**Version:** 0.1 (Design Draft)
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
+**Version:** 0.2 (Design Draft)
 **Author:** Frank Rojas
 **Date:** June 2026
-**Parent:** [Personal Assistant Vision](../../lifeTracker/docs/personalAssistanceVision.md)
+**Parent:** [lifeTracker Vision](../../docs/lifeTrackerVision.md)
 **UANS namespace:** `money.*`
 
 ---
@@ -20,7 +22,7 @@ Personal finance for a retired individual in their 70s is not about accumulation
 
 Most personal finance tools are built for accumulators. They optimize savings rates, track spending categories, and show net worth trending up. For a 70-year-old, the optimization is inverted: the goal is sustainable withdrawal while preserving optionality, managing tax brackets, and protecting against late-life care costs.
 
-The **moneyTracker** is purpose-built for this life stage. It tracks all personal accounts (not business — that is llcRentalTracker), models the retirement runway, manages the RMD calendar, and feeds the estateTracker with the authoritative account view.
+The **moneyAgent** is purpose-built for this life stage. It tracks all personal accounts (not business — that is llcRentalTracker), models the retirement runway, manages the RMD calendar, and feeds the estateAgent with the authoritative account view.
 
 ---
 
@@ -34,13 +36,13 @@ The key financial management domains for a 70s-retired profile, in priority orde
 - **Roth IRA**: no lifetime RMD — a key estate planning lever.
 - **Penalty for shortfall**: 25% excise tax (reduced to 10% if corrected within 2 years).
 - **RMD cascade**: RMD amount increases annual MAGI → affects Social Security taxability (up to 85%), IRMAA Medicare surcharges, and LTCG bracket.
-- **Action**: moneyTracker calculates each year's RMD per account, tracks distributions, and alerts if underdistributed.
+- **Action**: moneyAgent calculates each year's RMD per account, tracks distributions, and alerts if underdistributed.
 
 ### 2.2 IRMAA / Medicare Premium Management
 
 Medicare Part B and D surcharges (IRMAA) are triggered by MAGI from **two years prior**. The 2026 surcharges kick in at $106K (single). A large IRA withdrawal or Roth conversion in 2024 shows up as a 2026 IRMAA bill.
 
-moneyTracker tracks projected MAGI annually and surfaces IRMAA risk before the year that causes it.
+moneyAgent tracks projected MAGI annually and surfaces IRMAA risk before the year that causes it.
 
 ### 2.3 Withdrawal Sequencing
 
@@ -79,13 +81,13 @@ Track premiums, coverage details, and deductible/copay structure for:
 
 ## 3. Accounting Core — Beancount
 
-**[Beancount](https://beancount.io)** is the open-source Python double-entry accounting system used as the moneyTracker's ledger core. It is:
+**[Beancount](https://beancount.io)** is the open-source Python double-entry accounting system used as the moneyAgent's ledger core. It is:
 - pip-installable (`pip install beancount`)
 - Fully scriptable via Python API (`beancount.loader`)
 - Paired with **Fava** for a web-based ledger view
 - Used by personal finance practitioners for estate settlement, tax prep, and portfolio analysis
 
-Beancount provides the auditable double-entry foundation. The moneyTracker agent layer sits on top, reading/writing Beancount journal entries as the source of truth and maintaining JSON summaries for the agent interface and cross-tracker consumption.
+Beancount provides the auditable double-entry foundation. The moneyAgent agent layer sits on top, reading/writing Beancount journal entries as the source of truth and maintaining JSON summaries for the agent interface and cross-agent consumption.
 
 ---
 
@@ -103,7 +105,7 @@ pip install ofxparse
 
 ### 4.2 Plaid (Optional — Live Balances)
 
-[Plaid Python SDK](https://github.com/plaid/plaid-python) for live balance queries. First 200 calls/month free; ~$0.10–0.60/call thereafter. Use selectively — for real-time liquidity checks when houseTracker needs a budget approval or estateTracker needs a snapshot.
+[Plaid Python SDK](https://github.com/plaid/plaid-python) for live balance queries. First 200 calls/month free; ~$0.10–0.60/call thereafter. Use selectively — for real-time liquidity checks when houseAgent needs a budget approval or estateAgent needs a snapshot.
 
 ### 4.3 Retirement Account Aggregation
 
@@ -139,25 +141,25 @@ For quick scenario runs — "what if I spend $10K more/year?" — a simple NumPy
 ## 6. Agent Catalog
 
 ### 6.1 AccountRegistry Agent (`money.accounts.registry`)
-Master list of all personal financial accounts with type, institution, tax status, and beneficiary. Source of truth for estateTracker's asset view.
+Master list of all personal financial accounts with type, institution, tax status, and beneficiary. Source of truth for estateAgent's asset view.
 
 ### 6.2 TransactionLog Agent (`money.accounts.transactions`)
 Ingests OFX/QFX files and categorizes transactions by expense type. Feeds monthly spending report to PersonalAssistant. Tracks income events (Social Security, distributions from llcRentalTracker).
 
 ### 6.3 BalanceHistory Agent (`money.accounts.balances`)
-Monthly snapshots of all account balances and net worth (assets minus liabilities). Feeds estateTracker's net worth history.
+Monthly snapshots of all account balances and net worth (assets minus liabilities). Feeds estateAgent's net worth history.
 
 ### 6.4 RMDCalendar Agent (`money.rmd.calendar`)
 Calculates each year's RMD per traditional IRA/401k account. Tracks distributions. Alerts in Q4 if remaining RMD is underdistributed. Models multi-year RMD trajectory.
 
 ### 6.5 RunwayModel Agent (`money.finance.runway`)
-Runs Owl's linear programming optimizer and Monte Carlo quarterly. Outputs spending ceiling, Roth conversion recommendation, IRMAA risk assessment. Feeds estateTracker.
+Runs Owl's linear programming optimizer and Monte Carlo quarterly. Outputs spending ceiling, Roth conversion recommendation, IRMAA risk assessment. Feeds estateAgent.
 
 ### 6.6 IncomeTracker Agent (`money.income.sources`)
 Tracks all income sources: Social Security (monthly, taxability), LLC distributions (from llcRentalTracker events), investment income, RMD withdrawals. Projects annual MAGI for IRMAA and tax planning.
 
 ### 6.7 InsurancePremiums Agent (`money.insurance.premiums`)
-Tracks Medicare A/B/D premiums, Medigap supplement, long-term care insurance — premium amounts, coverage details, and review dates. Feeds medicalTracker with coverage context.
+Tracks Medicare A/B/D premiums, Medigap supplement, long-term care insurance — premium amounts, coverage details, and review dates. Feeds medicalAgent with coverage context.
 
 ---
 
@@ -261,17 +263,17 @@ money.*
 
 ---
 
-## 8. Cross-Tracker Integration
+## 8. Cross-Agent Integration
 
-| Tracker | What moneyTracker Sends | What It Receives |
+| Agent | What moneyAgent Sends | What It Receives |
 |---|---|---|
-| **estateTracker** | Monthly account balance snapshot; net worth; cost basis per account | None (estateTracker reads) |
-| **houseTracker** | HELOC balance; available cash reserves for project approval | Project cost estimates (for budget check) |
-| **medicalTracker** | HSA balance; insurance premium schedule | Care cost events; HSA-eligible expenses |
+| **estateAgent** | Monthly account balance snapshot; net worth; cost basis per account | None (estateAgent reads) |
+| **houseAgent** | HELOC balance; available cash reserves for project approval | Project cost estimates (for budget check) |
+| **medicalAgent** | HSA balance; insurance premium schedule | Care cost events; HSA-eligible expenses |
 | **llcRentalTracker** | None | K-1 distribution events (income received → `money.income.sources`) |
 | **PersonalAssistant** | Monthly spending summary; MAGI projection; runway P50/P90 | Monthly review request |
 
-**Integration event bus**: llcRentalTracker writes a distribution event to a shared events directory; moneyTracker reads and records it as income.
+**Integration event bus**: llcRentalTracker writes a distribution event to a shared events directory; moneyAgent reads and records it as income.
 
 ---
 
@@ -295,7 +297,7 @@ money.*
 
 3. **Roth is the most valuable underused asset.** Most seniors with Roth IRAs are too conservative about conversion timing. The RunwayModel agent surfaces every Roth conversion opportunity — a missed conversion window is a real cost to heirs.
 
-4. **moneyTracker never writes into other trackers.** It is a source of truth for financial data. Other trackers pull from it; it does not push.
+4. **moneyAgent never writes into other trackers.** It is a source of truth for financial data. Other trackers pull from it; it does not push.
 
 5. **OFX import before Plaid.** Manual monthly OFX downloads are zero-cost, institution-agnostic, and require no ongoing API authentication. Start there. Add Plaid only when live balance queries provide clear value.
 
@@ -311,5 +313,5 @@ money.*
 | 3 | RMDCalendar — all RMD-eligible accounts registered; 2026 RMD calculated and tracked |
 | 4 | IncomeTracker — Social Security and LLC distributions captured; MAGI projection available |
 | 5 | RunwayModel — Owl integrated; P50/P90 survival; Roth conversion recommendation |
-| 6 | estateTracker integration — balance snapshots and net worth fed on schedule |
+| 6 | estateAgent integration — balance snapshots and net worth fed on schedule |
 | 7 | PersonalAssistant integration — monthly financial summary in life review |

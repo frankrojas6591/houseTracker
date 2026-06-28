@@ -1,6 +1,8 @@
 # RecordAgent — Common Records Service
 
-**Version:** 1.0
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
+**Version:** 1.1
 **Date:** June 2026
 **Scope:** All lifeTracker discipline agents
 

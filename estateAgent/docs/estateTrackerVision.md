@@ -1,9 +1,11 @@
-# estateTracker Vision
+# estateAgent Vision
 
-**Version:** 0.1 (Design Draft)
+*My Personal Assistant Ecosystem — One Trusted Advisor/Advocate backed by Expert Agents*
+
+**Version:** 0.2 (Design Draft)
 **Author:** Frank Rojas
 **Date:** June 2026
-**Parent:** [Personal Assistant Vision](../../lifeTracker/docs/personalAssistanceVision.md)
+**Parent:** [lifeTracker Vision](../../docs/lifeTrackerVision.md)
 **UANS namespace:** `estate.*`
 
 ---
@@ -12,7 +14,7 @@
 
 An estate is everything a person owns and owes — and everything that will pass from them when they die. For most people, the estate is never actually managed. Documents are signed and filed away. Beneficiary designations are set at account opening and never reviewed. Net worth is a number the accountant produces once a year. The plan exists on paper but is never stress-tested against reality.
 
-The **estateTracker** makes the estate visible and active. It aggregates every asset from every tracker, models the retirement runway, tracks document currency, and surfaces the decisions that must be made before they become emergencies.
+The **estateAgent** makes the estate visible and active. It aggregates every asset from every tracker, models the retirement runway, tracks document currency, and surfaces the decisions that must be made before they become emergencies.
 
 > Estate planning is not a one-time event. It is a continuous process of matching your assets, your intentions, and your documents — and verifying they are all pointing at the same outcome.
 
@@ -22,7 +24,7 @@ The stakes at 70 are specific: the 2026 estate tax exemption is $15M/person. The
 
 ## 2. Legal Framework — The Seven Pillars
 
-A complete personal estate requires seven legal instruments. The estateTracker tracks the status, date, and currency of each.
+A complete personal estate requires seven legal instruments. The estateAgent tracks the status, date, and currency of each.
 
 | Instrument | Purpose | Review Trigger |
 |---|---|---|
@@ -40,14 +42,14 @@ A complete personal estate requires seven legal instruments. The estateTracker t
 
 ### 3.1 Asset Registry
 
-| Category | Examples | Source Tracker |
+| Category | Examples | Source Agent |
 |---|---|---|
-| **Primary residence** | Home FMV, mortgage balance, equity, TODD status | houseTracker |
-| **Traditional IRA / 401k** | Balance, institution, beneficiary, RMD status | moneyTracker |
-| **Roth IRA** | Balance, institution, beneficiary (no RMD lifetime) | moneyTracker |
-| **Taxable brokerage** | Balance, cost basis by lot (critical for step-up planning) | moneyTracker |
+| **Primary residence** | Home FMV, mortgage balance, equity, TODD status | houseAgent |
+| **Traditional IRA / 401k** | Balance, institution, beneficiary, RMD status | moneyAgent |
+| **Roth IRA** | Balance, institution, beneficiary (no RMD lifetime) | moneyAgent |
+| **Taxable brokerage** | Balance, cost basis by lot (critical for step-up planning) | moneyAgent |
 | **LLC business equity** | Estimated equity, K-1 distributions YTD, depreciation recapture exposure | llcRentalTracker |
-| **Life insurance CSV** | Cash surrender value, death benefit, beneficiary | moneyTracker |
+| **Life insurance CSV** | Cash surrender value, death benefit, beneficiary | moneyAgent |
 | **Personal property** | Vehicles, jewelry, collectibles — valued items only | Manual entry |
 | **Digital assets** | Crypto, domain names, subscriptions — and how to access them | Manual entry |
 
@@ -55,8 +57,8 @@ A complete personal estate requires seven legal instruments. The estateTracker t
 
 | Category | Examples |
 |---|---|
-| Mortgage / HELOC | Source from houseTracker |
-| Credit lines | Source from moneyTracker |
+| Mortgage / HELOC | Source from houseAgent |
+| Credit lines | Source from moneyAgent |
 | Tax obligations | Estimated capital gains exposure on appreciated assets |
 
 ---
@@ -76,7 +78,7 @@ $250K of gain on the sale of a primary residence is excluded from tax (single fi
 - Applies through a TODD with specific trust beneficiary conditions
 - Requires 24 months of primary residence use in the 60 months prior to sale
 
-**Tracking requirement:** Acquisition date, cost basis, any capital improvements (from houseTracker), and months of primary residence use.
+**Tracking requirement:** Acquisition date, cost basis, any capital improvements (from houseAgent), and months of primary residence use.
 
 ### 4.3 Estate Tax Threshold (2026+)
 
@@ -101,7 +103,7 @@ The central question of the estate's financial health: **will the money last?**
 | Input | Value to Track |
 |---|---|
 | Portfolio balance | IRA + Roth + taxable, monthly snapshot |
-| Annual spend baseline | From moneyTracker actual spending |
+| Annual spend baseline | From moneyAgent actual spending |
 | Healthcare cost inflation | 5–7%/yr for senior care; apply over longevity range |
 | Longevity range | P50 = 85, P90 = 92 (SSA 2026 tables) |
 | Long-term care trigger | Age estimate + cost range ($5K–$10K/month) |
@@ -181,7 +183,7 @@ estate.*
       "asset_id":         "home_kingsway",
       "type":             "real_estate",
       "name":             "177 Kingsway Dr",
-      "source_tracker":   "houseTracker",
+      "source_tracker":   "houseAgent",
       "fmv":              850000,
       "cost_basis":       335000,
       "acquisition_date": "2022-12-31",
@@ -207,18 +209,18 @@ estate.*
 
 ---
 
-## 8. Cross-Tracker Integration
+## 8. Cross-Agent Integration
 
-| Tracker | What estateTracker Receives | What It Sends |
+| Agent | What estateAgent Receives | What It Sends |
 |---|---|---|
-| **houseTracker** | FMV, mortgage balance, equity, TODD status, capital improvements log | None (reader only) |
-| **moneyTracker** | All account balances, cost basis, RMD status, income sources | None (reader only) |
+| **houseAgent** | FMV, mortgage balance, equity, TODD status, capital improvements log | None (reader only) |
+| **moneyAgent** | All account balances, cost basis, RMD status, income sources | None (reader only) |
 | **llcRentalTracker** | LLC equity, K-1 distributions YTD, depreciation recapture exposure | None (reader only) |
-| **medicalTracker** | Longevity P50/P90, long-term care cost projection, advance directive status | Long-term care funding need (to runway model) |
-| **faithTracker** | Ethical will draft, charitable bequest intentions | None (reader only) |
+| **medicalAgent** | Longevity P50/P90, long-term care cost projection, advance directive status | Long-term care funding need (to runway model) |
+| **faithAgent** | Ethical will draft, charitable bequest intentions | None (reader only) |
 | **PersonalAssistant** | Net worth trend, document review alerts, runway health | Annual estate summary; document expiry alerts |
 
-estateTracker is **read-only from all source trackers** — it aggregates but never writes into sibling trackers.
+estateAgent is **read-only from all source agents** — it aggregates but never writes into sibling agents.
 
 ---
 
@@ -236,9 +238,9 @@ estateTracker is **read-only from all source trackers** — it aggregates but ne
 
 ## 10. Design Principles
 
-1. **The estate is a system, not a document.** A signed trust is not an estate plan — it is one component. The estateTracker holds the full system view: assets, documents, beneficiaries, and the runway model all together.
+1. **The estate is a system, not a document.** A signed trust is not an estate plan — it is one component. The estateAgent holds the full system view: assets, documents, beneficiaries, and the runway model all together.
 
-2. **estateTracker reads; trackers write.** Every number in the estate view is sourced from the tracker that owns it. estateTracker never maintains its own copy of the home value or the IRA balance — it pulls the authoritative source.
+2. **estateAgent reads; trackers write.** Every number in the estate view is sourced from the tracker that owns it. estateAgent never maintains its own copy of the home value or the IRA balance — it pulls the authoritative source.
 
 3. **Step-up basis is the most undertracked high-value number in most estates.** Track it for every appreciated asset. It should be visible at all times.
 
@@ -255,7 +257,7 @@ estateTracker is **read-only from all source trackers** — it aggregates but ne
 | 0 | Records scaffold — UANS directory tree, stub JSON files |
 | 1 | AssetRegistry — manual entry for all current assets with cost basis |
 | 2 | DocumentVault — log all existing legal instruments with review dates |
-| 3 | NetWorthHistory — aggregate from houseTracker + moneyTracker snapshots |
+| 3 | NetWorthHistory — aggregate from houseAgent + moneyAgent snapshots |
 | 4 | RunwayModel — embed Owl for RMD calendar and P50/P90 survival modeling |
 | 5 | TaxPlanner — step-up basis registry, §121 tracking, Roth conversion analysis |
 | 6 | PersonalAssistant integration — annual estate summary; document review alerts surfaced to monthly check-in |
