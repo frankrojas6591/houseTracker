@@ -1,6 +1,6 @@
 # HouseMgr Vision
 
-**Version:** 0.4 (Draft for iteration)
+**Version:** 0.5 (Draft for iteration)
 **Author:** Frank Rojas
 **Date:** June 2026
 
@@ -72,7 +72,7 @@ The HouseMgr assembles the right agents, builds a recommendation, and presents i
 
 ### Provisioning / Fulfillment of House Agents
 
-Developing the full suite of house agents will take time. The guideline is to take one at a time and go deep on each one. Learn from each agent and apply to future agents. The order of agents is very important — the houseTracker design doc will detail the sequencing based on good property management practices.
+Developing the full suite of house agents will take time. The guideline is to take one at a time and go deep on each one. Learn from each agent and apply to future agents. The order of agents is very important — the houseAgent design doc will detail the sequencing based on good property management practices.
 
 The owner may need to adjust the priority based on real-life issues as they arise.
 
@@ -322,7 +322,7 @@ These questions were raised in v0.1 and resolved by the owner.
 |---|---|
 | **Data ingestion** | Multiple channels: county records (deed, taxes, HOA), agent-built questionnaire per discipline (best-practices knowledge capture), photo ingestion into CAD layout, document upload |
 | **Contractor network** | Owner-maintained preferred network based on personal relationships and style. Owner is a DIY, quality-for-budget operator — not a hands-off, high-spend owner. Contractor involvement is sized to fit the task |
-| **Utility data** | Will integrate with a future `financialTracker` app (separate pyTrackers project, TBD). Financing and HVAC agents receive utility bill data from that integration |
+| **Utility data** | Will integrate with the `moneyAgent` (lifeTracker discipline agent). Financing and HVAC agents receive utility bill data from that integration |
 | **Notification channel** | Monthly check-in via the app. App tracks and logs whether monthly check-ins are completed. Urgent items escalate immediately via the Communication agent |
 | **Agent architecture** | Hybrid: each agent has access to LLM-based domain expertise pulled into the task at hand, plus a house-specific knowledge base managed by HouseRecords. Industry best practices vs. house-specific facts are kept distinct |
 | **pyTrackers integration** | No shared infrastructure with `llcRentalTracker`. Any cross-tracker integration will be explicitly designed when the need arises |
@@ -330,7 +330,7 @@ These questions were raised in v0.1 and resolved by the owner.
 
 ---
 
-*This document is v0.3 — working draft, ready for next review cycle. Next step: establish agent build order / provisioning sequence in the houseTracker design doc.*
+*This document is v0.5 — working draft, ready for next review cycle. Next step: establish agent build order / provisioning sequence in the houseAgent design doc.*
 
 \newpage
 
@@ -647,7 +647,7 @@ Each agent section is one page. Agents A.2–A.5 are the baseline for length and
 - *Priority modification plan:* Grab bars, zero-threshold shower, handrail reinforcement, pathway lighting — staged by urgency and budget
 - *Fall risk audit:* Coordinate with Security/Safety agent for lighting; Architecture agent for structural blocking and threshold modifications
 - *Smart home for independence:* Voice control for lighting, thermostats, locks, security — reducing physical demands
-- *medicalTracker integration:* Bidirectional link with the owner's `medicalTracker` app — syncs medical needs to house modifications; integrates Apple Watch fall detection and CPAP data
+- *medicalAgent integration:* Bidirectional link with the owner's `medicalAgent` — syncs medical needs to house modifications; integrates Apple Watch fall detection and CPAP data
 
 \newpage
 
