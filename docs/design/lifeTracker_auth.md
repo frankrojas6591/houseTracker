@@ -1,6 +1,6 @@
 # lifeTracker — Auth Service Design
 
-**Version:** 1.0
+**Version:** 1.1
 **Date:** June 2026
 **Parent:** [Design Index](./lifeTracker_design.md)
 
@@ -10,55 +10,54 @@
 
 Auth is the first thing built in Phase 0. Nothing else runs without it. The lifeTracker auth service handles:
 
-- **Owner identity** — who is allowed to use this system
-- **Login** — passphrase verification against GPG-encrypted owner DB
+- **User identity** — who is allowed to use this system (identity only — not profile)
+- **Login** — passphrase verification against GPG-encrypted user DB
 - **Session** — JWT issued on login; verified on every request
 - **Decorators** — `@login_required` gates all non-public routes
-- **Setup wizard** — `ltCmd.py --setup` creates the owner DB on first run
+- **Setup wizard** — `ltCmd.py --setup` creates the user DB on first run
 
-There is one owner: Frank Rojas (`frankr6591`). The system is designed for one person. Multi-owner support is preserved in the data model but not a goal.
+**Auth is identity-only.** Who a user *is* (auth) is separate from what they *have* (User Profile Service). Auth stores only `user_id` + `passphrase_hash`. Everything else — houses, medical team, faith advisors — lives in the User Profile. See `lifeTracker_userProfile.md`.
 
 ---
 
-## 2. Owner DB — `owners.json.gpg`
+## 2. User DB — `users.json.gpg`
 
-The owner database is a GPG-encrypted JSON file stored at `~/.lifeTracker/owners.json.gpg`. It never touches git.
+The user database is a GPG-encrypted JSON file stored at `~/.lifeTracker/users.json.gpg`. It never touches git.
 
 ### Schema
 
 ```json
 {
-  "owners": [
+  "users": [
     {
-      "owner_id": "frankr6591",
-      "display_name": "Frank Rojas",
-      "email": "frankr6591@gmail.com",
+      "user_id": "frankr6591",
       "passphrase_hash": "<bcrypt hash>",
-      "active_agents": ["house", "medical", "money", "estate", "emotional", "faith"],
-      "created_at": "2026-06-28T00:00:00Z"
+      "phone": "+15125550100",
+      "created_at": "2026-06-29T00:00:00Z"
     }
   ]
 }
 ```
 
 - `passphrase_hash` — bcrypt-hashed passphrase. Never stored in plaintext. Never sent over the network.
-- `active_agents` — list of discipline agent namespaces active for this owner. Controls which agents are queried.
+- `phone` — stored here for Twilio caller-ID login (voice channel). Not duplicated in the profile.
+- `active_agents`, `display_name`, `email`, houses, medical team — all in User Profile, not here.
 - GPG symmetric encryption wraps the entire JSON file. The GPG key ID is in `config.json`.
 
 ### File: `core/auth/gpg_users.py`
 
 ```python
-def load_owners(config: dict) -> list[dict]:
-    """Decrypt owners.json.gpg and return parsed list."""
+def load_users(config: dict) -> list[dict]:
+    """Decrypt users.json.gpg and return parsed list."""
 
-def verify_owner(owner_id: str, passphrase: str, config: dict) -> bool:
-    """Load owners; find owner_id; bcrypt verify passphrase."""
+def verify_user(user_id: str, passphrase: str, config: dict) -> bool:
+    """Load users; find user_id; bcrypt verify passphrase."""
 
-def add_owner(owner: dict, config: dict) -> None:
-    """Add new owner to DB; re-encrypt and write."""
+def add_user(user_id: str, passphrase: str, phone: str, config: dict) -> None:
+    """Add new user to DB; re-encrypt and write. Does NOT create profile."""
 
-def list_owners(config: dict) -> list[str]:
-    """Return list of owner_ids."""
+def list_users(config: dict) -> list[str]:
+    """Return list of user_ids."""
 ```
 
 ---
@@ -74,12 +73,13 @@ On successful login, the server issues a JWT. The JWT is stored:
 JWT payload:
 ```json
 {
-  "owner_id": "frankr6591",
-  "active_agents": ["house", "medical", "money"],
+  "user_id": "frankr6591",
   "iat": 1719532800,
   "exp": 1722124800
 }
 ```
+
+The JWT carries only `user_id`. `active_agents` and all other profile data are loaded from the User Profile service after token verification — not embedded in the token.
 
 - Expiry: 30 days for browser sessions, 30 days for iOS (silent refresh before expiry)
 - Signed with `flask_secret` from `config.json` using `HS256`
@@ -87,8 +87,8 @@ JWT payload:
 ### File: `core/auth/session.py`
 
 ```python
-def issue_token(owner_id: str, active_agents: list[str], config: dict) -> str:
-    """Create signed JWT; return token string."""
+def issue_token(user_id: str, config: dict) -> str:
+    """Create signed JWT with user_id only; return token string."""
 
 def verify_token(token: str, config: dict) -> dict | None:
     """Verify signature and expiry; return payload dict or None."""
@@ -152,17 +152,19 @@ All web routes use `@login_required`. All `/api/*` routes use `@api_auth_require
 
 ```
 Browser → GET /login
-         ← login.html (passphrase field)
+         ← login.html (user_id + passphrase fields)
 
-Browser → POST /login {owner_id, passphrase}
-         → verify_owner() against owners.json.gpg
-         → issue_token() → set lt_session cookie
+Browser → POST /login {user_id, passphrase}
+         → verify_user() against users.json.gpg     ← auth: identity check
+         → profile_service.load(user_id)            ← profile: load full context
+         → issue_token(user_id) → set lt_session cookie
+         → store UserContext in signed session
          ← redirect /chat
 
 All subsequent requests:
          → @login_required reads cookie
-         → verify_token() → sets request.owner
-         → handler runs
+         → verify_token() → hydrates request.user (UserContext)
+         → handler runs with full user context available
 ```
 
 ### Twilio Caller-ID Login (voice channel)
@@ -192,16 +194,15 @@ Enter Twilio phone number: +1...
 Enter path for lifeTracker-data checkout: ~/dev/pyTrackers/lifeTracker-data
 Enter GPG key ID (or press Enter to use symmetric encryption): 
 
-Creating owner...
-  Owner ID [frankr6591]:
-  Display name [Frank Rojas]:
-  Email [frankr6591@gmail.com]:
+Creating first user (identity only)...
+  User ID [frankr6591]:
+  Phone number: +1...
   Passphrase: [hidden input]
   Confirm passphrase: [hidden input]
 
 Writing ~/.lifeTracker/config.json ... done
-Encrypting ~/.lifeTracker/owners.json.gpg ... done
-Provisioning records directory tree ... done
+Encrypting ~/.lifeTracker/users.json.gpg ... done
+Provisioning records directory tree ... [continues in Phase 0b: User Profile]
 
 Setup complete. Run: python ltCmd.py --start
 ```
@@ -213,7 +214,7 @@ Setup complete. Run: python ltCmd.py --start
 | `--setup` | First-run wizard: config, owner DB, data repo provisioning |
 | `--start` | Start Flask dev server at `localhost:5000` |
 | `--check` | Verify config, GPG DB, data repo, and all agent registrations |
-| `--add-owner` | Add a new owner to the GPG DB |
+| `--add-user` | Add a new user to the GPG DB (creates identity only; profile created separately) |
 | `--backup` | Push data repo to remote and log backup timestamp |
 
 ---
@@ -226,19 +227,19 @@ Setup complete. Run: python ltCmd.py --start
 
 ```json
 {
-  "owner_id": "frankr6591",
   "flask_secret": "...",
   "flask_debug": false,
   "anthropic_api_key": "sk-ant-...",
   "twilio_account_sid": "AC...",
   "twilio_auth_token": "...",
   "twilio_phone_number": "+1...",
-  "owner_phone_numbers": ["+1..."],
   "data_repo_path": "~/dev/pyTrackers/lifeTracker-data",
-  "gpg_owner_db": "~/.lifeTracker/owners.json.gpg",
+  "gpg_user_db": "~/.lifeTracker/users.json.gpg",
   "gpg_key_id": "",
   "jwt_expiry_days": 30
 }
 ```
+
+Note: `owner_id` / `owner_phone_numbers` removed — identity is in the encrypted user DB; phone is stored per-user there. Config no longer names a specific user.
 
 `setup_paths.py` reads this file at import time and exposes all path constants to every module. No other module reads `config.json` directly.
