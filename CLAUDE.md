@@ -24,11 +24,19 @@ These conventions are shared across all pyTrackers sub-projects.
 - No backwards-compatibility shims for removed code.
 - No trailing summaries in responses — the diff speaks for itself.
 
-### Design Workflow
+### Documentation/Markdown Style
+
+- No long winded text descriptions.
+- prefer pictures over words (within limits and a balanced approach). 
+- prefer bullets (short) to break down a long description.
+- Emphasize real scenarios vs technical prose
+- Make it fun, make it a story. 
+
+### Session/Design/Dev Workflow
 
 - For enhancements or major refactoring: discuss goals first, produce a multi-task plan, wait for **GO** before making changes.
 - After GO is given, make all changes with no prompts.
-- **FIXME convention:** The user marks open action items in docs with the prefix `FIXME:`. When Claude encounters a FIXME, resolve it — research, fill in the content, and remove the FIXME tag. Do not leave FIXMEs in place.
+- **FIXME convention:** The user marks open action items in docs, code and other files with the prefix `FIXME:`. When Claude encounters a FIXME, resolve it — research, fill in the content, and remove the FIXME tag. Do not leave FIXMEs in place.
 
 ### No Shortcuts / No Silent Fallbacks
 

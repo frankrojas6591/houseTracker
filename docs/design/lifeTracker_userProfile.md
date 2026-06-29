@@ -13,7 +13,7 @@ lifeTracker is designed to operate for **U users, each with H houses, M medical 
 | Service | Knows | Stored |
 |---|---|---|
 | **Auth** (`core/auth/`) | who you are — `user_id` + passphrase hash | `~/.lifeTracker/users.json.gpg` — never in git |
-| **User Profile** (`core/profile/`) | everything about you — houses, medical team, faith advisors, active agents | `lifeTracker-data/records/users/<user_id>/profile.json` — in data repo |
+| **User Profile** (`core/profile/`) | everything about you — houses, medical team, faith advisors, active agents | `<userData>/profile.json` — in Google Drive data folder |
 
 This split lets the same deployment instance serve multiple users without any agent needing to know about individual user data. Every discipline agent receives a `UserContext` at query time; it never reads user data directly.
 
@@ -21,7 +21,7 @@ This split lets the same deployment instance serve multiple users without any ag
 
 ## 2. User Profile Schema
 
-`records/users/<user_id>/profile.json`
+`<userData>/profile.json`
 
 ```json
 {
@@ -263,65 +263,45 @@ Every route handler accesses the full `UserContext` via `request.user`. No route
 
 ---
 
-## 6. Record Path Structure — User-Scoped
+## 6. Record Path Structure
 
-All agent records are scoped under `records/users/<user_id>/`. House records are further scoped by `house_id`. This lets the same RecordAgent instance serve multiple users and multiple houses without path collision.
+All agent records live under `<userData>/agents/`. The `userData` path (from `config.json`) is already user-specific — no `users/<user_id>/` prefix needed. House records are further scoped by `house_id`; medical by `practitioner_id`.
 
 ```
-lifeTracker-data/
-└── records/
-    └── users/
-        └── frankr6591/
-            ├── profile.json                          ← UserProfile (this service)
-            └── agents/
-                ├── house/
-                │   └── kingsway_dr/                  ← house_id from UserContext
-                │       ├── core/records/
-                │       ├── core/profile/
-                │       ├── systems/hvac/
-                │       ├── systems/electrical/
-                │       └── ...
-                ├── medical/
-                │   ├── arc_primary/                  ← practitioner_id
-                │   │   ├── health/conditions/
-                │   │   └── care/appointments/
-                │   └── arc_urology/
-                │       └── care/appointments/
-                ├── money/
-                │   ├── accounts/registry/
-                │   └── planning/rmd/
-                ├── estate/
-                │   └── assets/registry/
-                ├── emotional/
-                │   └── core/checkin/
-                ├── faith/
-                │   └── examen/reflection/
-                └── life/
-                    └── pa/
-                        ├── briefings/
-                        └── action_items/
+<userData>/                       ← ~/GDrive/Family/PersonalAssistant/
+├── profile.json                  ← UserProfile (this service)
+└── agents/
+    ├── house/
+    │   └── kingsway_dr/          ← house_id from UserContext
+    │       ├── core/records/
+    │       ├── core/profile/
+    │       ├── systems/hvac/
+    │       └── ...
+    ├── medical/
+    │   ├── arc_primary/          ← practitioner_id
+    │   │   ├── health/conditions/
+    │   │   └── care/appointments/
+    │   └── arc_urology/
+    ├── money/
+    │   ├── accounts/registry/
+    │   └── planning/rmd/
+    ├── estate/
+    │   └── assets/registry/
+    ├── emotional/
+    │   └── core/checkin/
+    ├── faith/
+    │   └── examen/reflection/
+    └── life/
+        └── pa/
+            ├── briefings/
+            └── action_items/
 ```
 
-RecordAgent path derivation receives `UserContext` at construction and uses `user_id` (and `house_id` for house namespace) as the path prefix. UANS segments remain unchanged — only the base path changes.
-
-```python
-def uans_to_path(uans: str, user_ctx: UserContext, data_root: Path, house_id: str = None) -> Path:
-    parts = uans.split(".")
-    namespace = parts[0]
-    base = data_root / "records" / "users" / user_ctx.user_id / "agents" / namespace
-
-    if namespace == "house":
-        hid = house_id or (user_ctx.primary_house.house_id if user_ctx.primary_house else "default")
-        base = base / hid
-
-    remainder = "/".join(parts[1:-1])   # category/agent
-    record = parts[-1] + ".json" if len(parts) >= 4 else ""
-    return base / remainder / record if record else base / remainder
-```
+See `lifeTracker_records.md` for `uans_to_path()` implementation.
 
 ---
 
-## 7. `ltCmd.py --setup` — Profile Creation Step
+## 7. `wsCmd.py --setup` — Profile Creation Step
 
 After auth setup, the wizard creates the initial user profile:
 
@@ -348,7 +328,7 @@ Creating user profile...
     Diocese [Austin]:
     Add another? [y/N]: N
 
-Writing records/users/frankr6591/profile.json ... done
+Writing <userData>/profile.json ... done
 ```
 
 Profile is also editable at runtime via `/profile` web route (Phase 0b).

@@ -14,7 +14,7 @@ Auth is the first thing built in Phase 0. Nothing else runs without it. The life
 - **Login** — passphrase verification against GPG-encrypted user DB
 - **Session** — JWT issued on login; verified on every request
 - **Decorators** — `@login_required` gates all non-public routes
-- **Setup wizard** — `ltCmd.py --setup` creates the user DB on first run
+- **Setup wizard** — `wsCmd.py --setup` creates the user DB on first run
 
 **Auth is identity-only.** Who a user *is* (auth) is separate from what they *have* (User Profile Service). Auth stores only `user_id` + `passphrase_hash`. Everything else — houses, medical team, faith advisors — lives in the User Profile. See `lifeTracker_userProfile.md`.
 
@@ -177,45 +177,47 @@ When a call arrives on the Twilio voice webhook, the caller's phone number is us
 
 ---
 
-## 6. `ltCmd.py --setup` Wizard
+## 6. `wsCmd.py --setup` Wizard
 
-The setup wizard runs once per environment (PythonAnywhere and local Mac each run it separately). It is the only way to create the `config.json` and `owners.json.gpg`.
+The setup wizard runs once per environment (PythonAnywhere and local Mac each run it separately). It is the only way to create the `config.json` and `users.json.gpg`.
 
 ```
-$ python ltCmd.py --setup
+$ python wsCmd.py --setup
 
 lifeTracker Setup Wizard
 ========================
-Enter Flask secret key: [generated randomly if blank]
-Enter Anthropic API key: sk-ant-...
-Enter Twilio Account SID: AC...
-Enter Twilio Auth Token: ...
-Enter Twilio phone number: +1...
-Enter path for lifeTracker-data checkout: ~/dev/pyTrackers/lifeTracker-data
-Enter GPG key ID (or press Enter to use symmetric encryption): 
+PA name (your assistant's name) [javier]:
+User ID [frank]:
+Google Drive data folder [~/GDrive/Family/PersonalAssistant]:
+Your mobile number (for Twilio caller-ID): +1...
+Flask secret key: [generated randomly if blank]
+Anthropic API key: sk-ant-...
+Twilio Account SID: AC...
+Twilio Auth Token: ...
+Twilio phone number: +1...
+GPG key ID (or press Enter to use symmetric encryption):
 
-Creating first user (identity only)...
-  User ID [frankr6591]:
-  Phone number: +1...
+Creating identity entry...
   Passphrase: [hidden input]
   Confirm passphrase: [hidden input]
 
 Writing ~/.lifeTracker/config.json ... done
 Encrypting ~/.lifeTracker/users.json.gpg ... done
-Provisioning records directory tree ... [continues in Phase 0b: User Profile]
+Profile creation continues in Phase 0b.
 
-Setup complete. Run: python ltCmd.py --start
+Setup complete. Run: python wsCmd.py --start
 ```
 
-### `ltCmd.py` commands
+### `wsCmd.py` commands
 
 | Command | Description |
 |---|---|
-| `--setup` | First-run wizard: config, owner DB, data repo provisioning |
+| `--setup` | First-run wizard: config.json, GPG identity DB, data folder provisioning |
 | `--start` | Start Flask dev server at `localhost:5000` |
-| `--check` | Verify config, GPG DB, data repo, and all agent registrations |
-| `--add-user` | Add a new user to the GPG DB (creates identity only; profile created separately) |
-| `--backup` | Push data repo to remote and log backup timestamp |
+| `--check` | Verify config, GPG DB, data folder, and all agent registrations |
+| `--add-user` | Add a new user to the GPG DB (identity only; profile created separately) |
+| `--email` | Batch Gmail ingestion — classify threads and write to agent records |
+| `--sync` | Sync data folder to/from PythonAnywhere via Google Drive API |
 
 ---
 
@@ -223,23 +225,8 @@ Setup complete. Run: python ltCmd.py --start
 
 `~/.lifeTracker/config.json` — **never committed to git**.
 
+Full schema with all fields: `docs/strategy-Git_UserConfig.md`.
+
 `config.json.example` in the repo is a committed schema template with placeholder values.
-
-```json
-{
-  "flask_secret": "...",
-  "flask_debug": false,
-  "anthropic_api_key": "sk-ant-...",
-  "twilio_account_sid": "AC...",
-  "twilio_auth_token": "...",
-  "twilio_phone_number": "+1...",
-  "data_repo_path": "~/dev/pyTrackers/lifeTracker-data",
-  "gpg_user_db": "~/.lifeTracker/users.json.gpg",
-  "gpg_key_id": "",
-  "jwt_expiry_days": 30
-}
-```
-
-Note: `owner_id` / `owner_phone_numbers` removed — identity is in the encrypted user DB; phone is stored per-user there. Config no longer names a specific user.
 
 `setup_paths.py` reads this file at import time and exposes all path constants to every module. No other module reads `config.json` directly.

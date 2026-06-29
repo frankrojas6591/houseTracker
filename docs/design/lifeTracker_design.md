@@ -12,11 +12,13 @@
 
 | Doc | Service | What It Covers |
 |---|---|---|
-| `lifeTracker_auth.md` | **Auth** | Login, identity-only GPG user DB, JWT sessions, `ltCmd.py --setup` |
+| `lifeTracker_auth.md` | **Auth** | Login, identity-only GPG user DB, JWT sessions, `wsCmd.py --setup` |
 | `lifeTracker_userProfile.md` | **User Profile** | U users × H houses × M medical team × F faith advisors; UserContext runtime object |
 | `lifeTracker_records.md` | **RecordAgent** | UANS path system, user-scoped record paths, git-as-master store, read/write API |
 | `lifeTracker_commWeb.md` | **Web UI** | Flask app, blueprint architecture, chat + checkin routes |
 | `lifeTracker_commIOS.md` | **iOS API** | `/api/*` endpoints consumed by `mobileAudioIO` |
+| `lifeTracker_email.md` | **Email** | Gmail ingestion pipeline + PA outbound drafts |
+
 
 Discipline-agent-specific design docs live under each agent's `docs/design/` directory (e.g., `houseAgent/docs/design/`).
 
@@ -27,7 +29,7 @@ Discipline-agent-specific design docs live under each agent's `docs/design/` dir
 ```
 lifeTracker/                    ← this repo
 │
-├── ltCmd.py                    ← CLI admin: --setup, --start, --check, --backup
+├── wsCmd.py                    ← CLI admin: --setup, --start, --check, --backup
 ├── wsgi.py                     ← Flask WSGI entry point for PythonAnywhere
 ├── requirements.txt
 ├── setup_paths.py              ← anchors all paths from repo root; reads config.json
@@ -89,39 +91,49 @@ lifeTracker/                    ← this repo
 
 **Outside git (never committed):**
 
+See `docs/strategy-Git_UserConfig.md` for the authoritative config schema and data path structure.
+
 ```
 ~/.lifeTracker/
-├── config.json                 ← secrets: Twilio keys, Flask secret, API keys, paths
-└── users.json.gpg              ← GPG-encrypted user DB (identity only)
+├── config.json         ← per-host secrets: API keys, paName, userData path
+└── users.json.gpg      ← GPG-encrypted identity DB (user_id + passphrase hash)
 
-~/dev/pyTrackers/lifeTracker-data/    ← private data repo (separate git repo)
-└── records/
-    └── users/
-        └── frankr6591/
-            ├── profile.json        ← UserProfile (houses, medical team, faith advisors)
-            └── agents/
-                ├── house/
-                │   └── kingsway_dr/    ← house_id from UserProfile
-                │       ├── systems/hvac/
-                │       └── ...
-                ├── medical/
-                │   └── arc_primary/    ← practitioner_id from UserProfile
-                ├── money/ estate/ emotional/ faith/
-                └── life/pa/
+<userData>/             ← Google Drive folder (e.g. ~/GDrive/Family/PersonalAssistant)
+├── profile.json        ← UserProfile: houses, medical team, faith advisors
+└── agents/
+    ├── house/kingsway_dr/
+    ├── medical/arc_primary/
+    ├── money/ estate/ emotional/ faith/
+    └── life/pa/
 ```
 
 ---
 
-## 3. Phase Plan — Common Services → houseAgent
+## 3. Maturity Plans — The Long Arc
+
+lifeTracker is not a project with a delivery date. It is a living, learning ecosystem. Four maturity stages:
+
+| Plan | Trigger | What It Means |
+|---|---|---|
+| **BirthPlan** | Now → Phase 6 complete | Ecosystem built; agents have baseline knowledge; monthly check-in runs end-to-end |
+| **CertificationPlan** | After Phase 6 | Agents proven to add value; PA narrative passes the "tell my story" test |
+| **Year2Plan** | Start of Year 2 | Steady state; vector search over growing records; YE/YS review cadence established |
+| **TrustedPlan** | Year 3+ | Cross-agent synthesis; PA communicates to key persons in the principal's life |
+
+**BirthPlan** goal (the Phase 6 milestone): *"Javier can produce a YTD Life Report — one per agent — that Frank reads and finds surprising, accurate, and useful."*
+
+See `docs/strategy-KnowledgeAutonomousGrowth.md` for how agents accumulate knowledge across all four plans.
+
+## 4. Phase Plan — BirthPlan (Phases 0–6)
 
 ### Phase 0a — Flask Scaffold + Auth (Identity)
 
-**Milestone:** Flask app running on PythonAnywhere. `/login` works. `ltCmd.py --setup` creates the user identity DB. No agents, no profile yet.
+**Milestone:** Flask app running on PythonAnywhere. `/login` works. `wsCmd.py --setup` creates the user identity DB. No agents, no profile yet.
 
 | Task | Module | Notes |
 |---|---|---|
 | `setup_paths.py` | `setup_paths.py` | Reads `~/.lifeTracker/config.json`; exposes all path constants |
-| `ltCmd.py --setup` | `ltCmd.py` | Wizard: writes config.json, creates GPG user DB (identity only) |
+| `wsCmd.py --setup` | `wsCmd.py` | Wizard: writes config.json, creates GPG user DB (identity only) |
 | Flask app factory | `wsgi.py` | `create_app()` registers all blueprints |
 | Auth routes | `ui/auth.py` | `/login`, `/logout`, `/register` |
 | `@login_required` decorator | `core/auth/decorators.py` | Verifies JWT; hydrates `request.user` from UserProfileService |
@@ -135,14 +147,14 @@ Full design: `lifeTracker_auth.md`
 
 ### Phase 0b — User Profile Service
 
-**Milestone:** `ltCmd.py --setup` continues to build the full user profile: houses, medical team, faith advisors. `UserContext` available on every request. `/profile` web view shows user data.
+**Milestone:** `wsCmd.py --setup` continues to build the full user profile: houses, medical team, faith advisors. `UserContext` available on every request. `/profile` web view shows user data.
 
 | Task | Module | Notes |
 |---|---|---|
 | `UserContext` model | `core/profile/models.py` | `UserContext`, `HouseEntry`, `PractitionerEntry`, `FaithAdvisorEntry` |
 | `UserProfileService` | `core/profile/user_profile.py` | `load(user_id)` → `UserContext`; `save(ctx)`; `add_house/practitioner/advisor` |
-| Profile storage | `lifeTracker-data` | `records/users/<user_id>/profile.json` — in data repo, committed |
-| Setup wizard extension | `ltCmd.py` | After auth: prompt for houses, medical team, faith advisors |
+| Profile storage | `<userData>/` | `profile.json` — in Google Drive data folder |
+| Setup wizard extension | `wsCmd.py` | After auth: prompt for houses, medical team, faith advisors |
 | `/profile` route | `ui/auth.py` or `ui/profile.py` | View + edit user profile via web |
 | `@login_required` update | `core/auth/decorators.py` | After token verify, calls `UserProfileService.load(user_id)` → `request.user` |
 | Milestone test | — | After setup: `request.user.primary_house.address == "177 Kingsway Dr..."` |
@@ -151,20 +163,37 @@ Full design: `lifeTracker_userProfile.md`
 
 ---
 
-### Phase 1 — RecordAgent + Data Repo
+### Phase 1 — RecordAgent + Data Store
 
-**Milestone:** RecordAgent provisions the full `records/agents/` directory tree. `write_json` and `read_json` work and auto-commit to `lifeTracker-data` git repo.
+**Milestone:** RecordAgent provisions the full `<userData>/agents/` directory tree. `write_json` and `read_json` work. Google Drive syncs the data folder across Mac and PythonAnywhere.
 
 | Task | Module | Notes |
 |---|---|---|
-| `lifeTracker-data` repo | private GitHub | Create private repo; clone into `~/.lifeTracker/data/` or `~/dev/pyTrackers/lifeTracker-data/` |
-| UANS path derivation | `core/records/uans.py` | `uans_to_path("house.systems.hvac")` → `records/agents/house/systems/hvac/` |
-| Git store | `core/records/git_store.py` | `write_json(uans, filename, data)` → write → `git commit` → `git push` |
+| Data folder setup | `wsCmd.py --setup` | Creates `<userData>/agents/` tree on first run; verifies Google Drive path exists |
+| UANS path derivation | `core/records/uans.py` | `uans_to_path("house.systems.hvac", user_ctx)` → `<userData>/agents/house/kingsway_dr/systems/hvac/` |
+| File store | `core/records/file_store.py` | `write_json(path, data)` → write file; Google Drive syncs automatically |
 | RecordAgent provisioning | `core/records/record_agent.py` | `provision()` creates full directory tree for all agent namespaces |
-| `ltCmd.py --setup` extension | `ltCmd.py` | Calls `RecordAgent.provision()` after config wizard |
-| Milestone test | — | `python ltCmd.py --setup` → inspect `lifeTracker-data/records/agents/` → all directories exist |
+| `wsCmd.py --setup` extension | `wsCmd.py` | Calls `RecordAgent.provision()` after profile wizard |
+| Milestone test | — | `python wsCmd.py --setup` → `ls <userData>/agents/` → all namespace directories exist |
 
 Full design: `lifeTracker_records.md`
+
+---
+
+### Phase 0c — Email Ingestion
+
+**Milestone:** `wsCmd.py --email --dry-run` classifies 50+ Gmail threads correctly and maps them to agent namespaces. At least one record written per active agent. PA can draft a summary email back to the principal.
+
+| Task | Module | Notes |
+|---|---|---|
+| Gmail client | `core/email/gmail_client.py` | Search, fetch threads via Gmail MCP tools |
+| Email classifier | `core/email/classifier.py` | Haiku: thread → `{agent, uans, summary, action_required}` |
+| Batch import | `wsCmd.py --email` | `--dry-run` preview; writes records via RecordAgent |
+| Outbound draft | `core/email/sender.py` | PA drafts monthly summary; principal approves in Gmail |
+| Web UI | `ui/email.py` | `/email/inbox`, `/email/drafts`, `/email/import` |
+| Milestone test | — | `--dry-run` on 12 months Gmail; review classification accuracy per agent |
+
+Full design: `lifeTracker_email.md`
 
 ---
 
@@ -231,9 +260,24 @@ Each agent follows the same pattern: implement `DisciplineAgent`, register with 
 
 ---
 
-## 4. Shared Contracts
+### Phase 6 — YTD Life Review
 
-### 4.1 DisciplineAgent Interface
+This is the MAJOR MILESTONE of the `BirthPlan` phases - not the state of the principle but the ability to generate an independent view os the principle's life by a trusted assistant. 
+
+The principle and the PA build a "YTD Life Report" that summarizes the **Key** matters of the principal's life (not all the gory details).   This includes the following per Agent:
+
+1. Start of <x>Agent
+2. YTD Accomplishments (positives)
+3. What needs focus (current year)
+4. 5 year plan outlook (good, bad and ugly things that needs attention).
+
+**VERY IMPORTANT**:  this per agent summary is not biased by the principal's view of the world but more importantly on per discipline expert knowledge and goals of each agent. 
+
+---
+
+## 5. Shared Contracts
+
+### 5.1 DisciplineAgent Interface
 
 Every discipline agent implements these four methods. The PA calls only these — never accesses agent internals.
 
@@ -254,57 +298,42 @@ class DisciplineAgent:
 
 `AgentResponse`, `ActionItem`, `AgentBriefing` defined in `life/models.py` — the only shared import contract. No agent imports from another agent.
 
-### 4.2 Voice Response Constraint
+### 5.2 Voice Response Constraint
 
 When synthesizing for voice (Twilio or `channel: "ios_voice"`), the Synthesizer produces **≤ 3 sentences** of spoken prose — no markdown, no lists, no headers. Full structured response is always written to RecordAgent and available in the web UI.
 
-### 4.3 UANS Naming
+### 5.3 UANS Naming
 
-Every agent name, record file, and directory path derives from the 4-segment UANS. Record paths are **user-scoped** — `UserContext` provides `user_id` (and `house_id` for the `house` namespace):
+Every agent name, record file, and directory path derives from the 4-segment UANS. The `userData` path (from `config.json`) is the root; `UserContext` supplies the namespace-specific scope IDs:
 
 ```
-<namespace>.<category>.<agent>.<record>  +  UserContext(user_id, house_id)
+<namespace>.<category>.<agent>.<record>  +  config.userData + UserContext
          ↓
-records/users/<user_id>/agents/<namespace>/[<house_id>/]<category>/<agent>/<record>.json
+<userData>/agents/<namespace>/[<scope_id>/]<category>/<agent>/<record>.json
 ```
 
-Examples for user `frankr6591`, house `kingsway_dr`:
+Examples (userData = `~/GDrive/Family/PersonalAssistant`, house `kingsway_dr`):
 ```
 house.systems.hvac.maintenance_log
-  → records/users/frankr6591/agents/house/kingsway_dr/systems/hvac/maintenance_log.json
+  → <userData>/agents/house/kingsway_dr/systems/hvac/maintenance_log.json
 
 medical.health.conditions.current
-  → records/users/frankr6591/agents/medical/arc_primary/health/conditions/current.json
+  → <userData>/agents/medical/arc_primary/health/conditions/current.json
 
 life.pa.action_items.open
-  → records/users/frankr6591/agents/life/pa/action_items/open.json
+  → <userData>/agents/life/pa/action_items/open.json
 ```
 
 ---
 
-## 5. Deployment
+## 6. Deployment
 
-**Primary deployment:** PythonAnywhere (PA)
+**Primary deployment:** PythonAnywhere
 - Flask WSGI app at `<username>.pythonanywhere.com`
 - Twilio voice webhook: `https://<username>.pythonanywhere.com/voice`
-- PA URL: `https://<username>.pythonanywhere.com`
 
 **Local Mac (development):**
-- `python ltCmd.py --start` → Flask at `localhost:5000`
-- No Twilio (voice webhook not reachable); web UI + API fully functional
-- iOS app on device connects to Mac's LAN IP: `192.168.x.x:5000`
+- `python wsCmd.py --start` → Flask at `localhost:5000`
+- iOS app connects to Mac's LAN IP: `192.168.x.x:5000`
 
-**Config (never committed):**
-```json
-{
-  "owner_id": "frankr6591",
-  "flask_secret": "...",
-  "twilio_account_sid": "...",
-  "twilio_auth_token": "...",
-  "twilio_phone_number": "+1...",
-  "anthropic_api_key": "...",
-  "data_repo_path": "/home/frankr6591/lifeTracker-data",
-  "gpg_owner_db": "/home/frankr6591/.lifeTracker/owners.json.gpg",
-  "gpg_key_id": "..."
-}
-```
+Config schema: `docs/strategy-Git_UserConfig.md`

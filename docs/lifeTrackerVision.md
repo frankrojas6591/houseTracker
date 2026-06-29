@@ -12,6 +12,8 @@
 
 **lifeTracker** is the repository for a personal life management ecosystem — a **Personal Assistant (PA)** orchestrator backed by six discipline agents, each an expert in one domain of life. One voice call. One web app. One shared communication layer.
 
+The **lifeTracker** is not just a finite state machine of records but a **living, learning autonomous ecosystem** where each agent is itself autonomous self-learning expert in its discipline.  
+
 **Design principle: One Personal Assistant, six expert agents.**
 
 ```
