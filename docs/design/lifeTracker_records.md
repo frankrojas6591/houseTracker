@@ -61,6 +61,10 @@ For Frank: `~/GDrive/Family/PersonalAssistant/`, house `kingsway_dr`:
     │   └── life/
     │       ├── briefings/
     │       └── action_items/
+    ├── comm/
+    │   └── memory/                ← email_id from UserContext
+    │       ├── stm_threads/
+    │       └── ltm_threads/
     ├── house/
     │   └── kingsway_dr/           ← house_id from UserContext
     │       ├── core/records/

@@ -17,7 +17,7 @@
 | `lifeTracker_records.md` | **RecordAgent** | UANS path system, user-scoped record paths, git-as-master store, read/write API |
 | `lifeTracker_commWeb.md` | **Web UI** | Flask app, blueprint architecture, chat + checkin routes |
 | `lifeTracker_commIOS.md` | **iOS API** | `/api/*` endpoints consumed by `mobileAudioIO` |
-| `lifeTracker_email.md` | **Email** | Gmail ingestion pipeline + PA outbound drafts |
+| `lifeTracker_commMemory.md` | **commMemory** | Universal thread store; STM/LTM priority management; commEmail sub-agent (Gmail ingestion + PA drafts) |
 
 
 Discipline-agent-specific design docs live under each agent's `docs/design/` directory (e.g., `houseAgent/docs/design/`).
@@ -193,7 +193,7 @@ Full design: `lifeTracker_records.md`
 | Web UI | `ui/email.py` | `/email/inbox`, `/email/drafts`, `/email/import` |
 | Milestone test | — | `--dry-run` on 12 months Gmail; review classification accuracy per agent |
 
-Full design: `lifeTracker_email.md`
+Full design: `lifeTracker_commMemory.md`
 
 ---
 

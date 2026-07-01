@@ -181,9 +181,33 @@ def handle_query(question, user_ctx, agent):
 Background tasks write their findings to `<userData>/agents/<namespace>/life/insights.json`. The PA surfaces them at the next monthly check-in.
 
 **Cost rule:**
-- Haiku for quick response: ~$0.001/query
-- Opus for deep analysis: ~$0.05/analysis, triggered only when the question warrants it
-- Monthly deep review: one Opus call per agent per month (~$0.30/month total)
+
+┌────────────┬───────────────┬───────────────┐
+│   Model    │     Input     │    Output     │
+├────────────┼───────────────┼───────────────┤
+│ Haiku 4.5  │ $0.80 / MTok  │ $4.00 / MTok  │
+├────────────┼───────────────┼───────────────┤
+│ Sonnet 4.6 │ $3.00 / MTok  │ $15.00 / MTok │
+├────────────┼───────────────┼───────────────┤
+│ Opus 4.8   │ $15.00 / MTok │ $75.00 / MTok │
+└────────────┴───────────────┴───────────────┘
+
+For the cost rule estimates in the knowledge doc:
+
+┌──────────────────────────────────────┬────────────────┬───────────┐
+│                 Use                  │ Typical tokens │ Est. cost │
+├──────────────────────────────────────┼────────────────┼───────────┤
+│ Haiku quick query (~1K in / 200 out) │ 1,200          │ ~$0.001   │
+├──────────────────────────────────────┼────────────────┼───────────┤
+│ Sonnet synthesis (~2K in / 400 out)  │ 2,400          │ ~$0.012   │
+├──────────────────────────────────────┼────────────────┼───────────┤
+│ Opus deep analysis (~5K in / 1K out) │ 6,000          │ ~$0.15    │
+└──────────────────────────────────────┴────────────────┴───────────┘
+
+Note: 
+1. Monthly deep review: one Opus call per agent per month (~$0.30/month total)
+2. Opus is triggered only when the question warrants it
+3. the Opus deep analysis estimate in the doc (~$0.05) was low — at those rates it's closer to ~$0.15/analysis. Worth correcting in the doc if you want accuracy. The monthly total (one Opus call per agent × 6 agents) would be ~$0.90/month, not $0.30.
 
 ---
 

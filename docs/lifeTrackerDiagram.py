@@ -92,7 +92,7 @@ AGENTS = [
         disk_top_cap="#9a7a50", disk_bot_cap="#3e2a14",
     ),
     dict(
-        icon="✝",  name="faithAgent", ns="faith.*",
+        icon="🕊️",  name="faithAgent", ns="faith.*",
         grad="faithGrad",
         title_fill="#f8f0f0", ns_fill="#e8c8c8", desc_fill="#e0b8b8",
         accent_bar="#d8a8a8",

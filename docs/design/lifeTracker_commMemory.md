@@ -1,6 +1,6 @@
-# lifeTracker — Email Channel Design
+# lifeTracker — commMemory Design
 
-**Version:** 1.0
+**Version:** 1.1
 **Date:** June 2026
 **Parent:** [Design Index](./lifeTracker_design.md)
 
@@ -8,17 +8,36 @@
 
 ## 1. Purpose
 
-Email is both an **ingestion channel** (statements, appointment confirmations, contractor quotes, legal notices all arrive by email) and a **communication channel** (Javier sends summaries, action item reminders, and alerts to the principal).
+**commMemory** is the universal communication memory layer for the entire lifeTracker ecosystem. It is a core common service — not a discipline agent — that sits between all inbound channels (web UI, iOS voice, email, Twilio) and the PA.
 
-Phase 0c goal: connect Gmail so agents can learn from what's already there — years of house, medical, financial, and legal correspondence that exists right now, before any agent is built.
+Two responsibilities:
+
+1. **Universal thread store** — every conversation, email, and voice interaction is captured as a thread, regardless of channel. One place to see all communication history.
+2. **STM/LTM priority management** — threads are classified by ownership and priority. High-priority agent-owned threads flow to their owning agent. Lower-priority threads are retained in commMemory's own store with a 12-month LTM horizon.
+
+```
+All channels → commMemory → classify + prioritize
+                              │
+                 80–100 (agent threads) → owning agent (house, medical, money…)
+                 0–79  (memory threads) → commMemory STM/LTM store → monthly PA review
+```
+
+**commEmail** is commMemory's primary sub-agent for the email channel — responsible for Gmail ingestion and outbound PA drafts.
+
+### Phase 0c Goals
+
+1. Configure and seed commMemory with commEmail
+2. Connect Gmail: classify 12 months of existing email across agent namespaces
+3. Seed commMemory STM/LTM store with the initial classified thread set
+4. Deliver to PA a narrative summary of the email seed moment
 
 ---
 
-## 2. Two Roles Email Plays
+## 2. Two Roles commEmail Plays
 
 ```
 ROLE 1 — INGESTION (Gmail → agents)
-  Email arrives → classified by agent → stored as RecordAgent record
+  commEmail arrives → classified by agent → stored as RecordAgent record
   "Tax appraisal letter scanned from email → house.finance.tax.appraisal_2026"
   "Lab results confirmation → medical.health.labs.arc_2026_06"
   "Contractor quote → house.systems.hvac.quotes"
@@ -47,7 +66,7 @@ The Gmail MCP server (`mcp__claude_ai_Gmail__*`) provides direct access to the p
 
 ---
 
-## 4. Email Ingestion Pipeline
+## 4. commEmail Ingestion Pipeline
 
 ```
 Gmail Inbox
@@ -66,11 +85,11 @@ Gmail Inbox
     ▼  label_thread(thread_id, label="lifeTracker/house/processed")
 ```
 
-### Email Classifier System Prompt (Haiku)
+### commEmail Classifier System Prompt (Haiku)
 
 ```
 You are Javier's email classifier. Given an email thread, identify:
-1. Which lifeTracker agent owns this: house, medical, money, estate, emotional, faith, or ignore
+1. Which lifeTracker agent owns this: house, medical, money, estate, emotional, faith, or memory
 2. UANS category and record name (e.g. "finance.tax.appraisal_2026")
 3. A 1-sentence summary of the key fact or action needed
 4. Whether this requires immediate action (bool)
@@ -80,18 +99,40 @@ If the email is personal/social/spam with no life-management relevance, return a
 Respond as JSON only: {agent, uans, summary, action_required}
 ```
 
+### 4.1 commMemory Agent 
+
+The commMemory Agent has 2 tasks:
+1. Classify any incoming thread (email, IOS voice, UI) that are not owned by an existing lifeTracker Agent.
+    - threads are classified as agentThread
+3. Prioritize the importantance of memory threads.
+    - the priorities of memory threads is expected to constantly shift.
+    - Priorities are weighted 0-100
+        - 80-100 : these are reserved for lifeTracker agents
+        - 50-79  : these are threads that the principle user has interests in
+        - 25-49  : these are threads the principle has no interest but need some level of attention within a period of 3 months
+        - 0-24.  : these are junk, ignore, advertisements/promotions of no interest to the principal user.
+
+### commMemory Management
+
+|  Ownership   |  Prio  |          STM                 |          LTM               |
+|--------------|--------|------------------------------|----------------------------|
+|agentThreads  | 80-100 | passed to agent (traced)     |  NA: stored in agent store |
+|memoryThreads |  0-79  | stored in commMemory store   |  retained for 12 months.   |
+
+The commEmail Memory Agent should schedue a monthly check-in with the PA to provide a summary of activities (memory threads 0-79), and top items needing possible attention.    Over time, the commEmail Memory Agent with the PA learn what is important and what is not important.   Mistakes are bound to happen - learn and move forward. 
+
 ---
 
-## 5. Outbound Email
+## 5. Outbound commEmail
 
-### When PA Sends Email
+### When PA Sends commEmail
 
 | Trigger | Content | Timing |
 |---|---|---|
 | Monthly check-in complete | Full life review summary (all 6 agents) | 1st of month |
 | Urgent action item | One-line alert + link to web UI | Immediately on detection |
 | `wsCmd.py --email` import complete | "Classified N emails → X agents" digest | After batch import |
-| Principal request via chat | "Email me a summary of my HVAC history" | On demand |
+| Principal request via chat | "commEmail me a summary of my HVAC history" | On demand |
 
 ### Draft Format
 
@@ -114,7 +155,7 @@ The batch import is run once (or periodically) to pull historical email into age
 ```
 $ python wsCmd.py --email
 
-lifeTracker Email Import
+lifeTracker commEmail Import
 ========================
 Gmail search window [last 365 days]: 
 Dry run (preview without writing)? [Y/n]: Y
@@ -171,7 +212,7 @@ Add to `~/.lifeTracker/config.json`:
 | Task | Module | Notes |
 |---|---|---|
 | Gmail search + fetch | `core/email/gmail_client.py` | Wraps MCP Gmail tools |
-| Email classifier | `core/email/classifier.py` | Haiku IntentParser variant |
+| commEmail classifier | `core/email/classifier.py` | Haiku IntentParser variant |
 | Batch import | `wsCmd.py --email` | Dry run + write modes |
 | Outbound draft | `core/email/sender.py` | Draft or send via MCP |
 | Web UI | `ui/email.py` | Inbox review + draft approval |
