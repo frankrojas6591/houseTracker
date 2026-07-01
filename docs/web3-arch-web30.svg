@@ -1,112 +1,61 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 390"
-     font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-
-  <defs>
-    <!-- Per-branch arrow colors -->
-    <marker id="arr-blue" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0,9 3,0 6" fill="#1d4ed8"/>
-    </marker>
-    <marker id="arr-green" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0,9 3,0 6" fill="#059669"/>
-    </marker>
-    <marker id="arr-sky" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0,9 3,0 6" fill="#0284c7"/>
-    </marker>
-    <marker id="arr-purple" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0,9 3,0 6" fill="#7c3aed"/>
-    </marker>
-    <!-- Card shadow -->
-    <filter id="shadow" x="-5%" y="-5%" width="115%" height="130%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/>
-    </filter>
-    <!-- Javier glow -->
-    <filter id="glow" x="-10%" y="-10%" width="125%" height="130%">
-      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#059669" flood-opacity="0.35"/>
-    </filter>
-  </defs>
-
-  <!-- ─── BACKGROUND ─── -->
-  <rect width="740" height="390" rx="12" fill="#f0fdf4"/>
-
-  <!-- ─── HEADER ─── -->
-  <rect x="0" y="0" width="740" height="56" rx="12" fill="#064e3b"/>
-  <rect x="0" y="44" width="740" height="12" fill="#064e3b"/>
-  <text x="370" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#d1fae5"
-        letter-spacing="0.3">Web 3.0  —  Javier as a Sovereign Agent</text>
-  <text x="370" y="44" text-anchor="middle" font-size="10" fill="#6ee7b7">TrustedPlan+ · target state</text>
-
-  <!-- ─── FRANK DID  (left) ─── -->
-  <rect x="18" y="156" width="158" height="100" rx="9" fill="#dbeafe" stroke="#1d4ed8"
-        stroke-width="2" filter="url(#shadow)"/>
-  <text x="97" y="184" text-anchor="middle" font-size="24">🔑</text>
-  <text x="97" y="208" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">Frank</text>
-  <text x="97" y="225" text-anchor="middle" font-size="8.5" fill="#1d4ed8">did:key:z6MkFrank…</text>
-  <text x="97" y="240" text-anchor="middle" font-size="8.5" fill="#3b82f6">self-sovereign identity</text>
-  <text x="97" y="252" text-anchor="middle" font-size="8" fill="#60a5fa">cryptographic · no middleman</text>
-
-  <!-- Arrow Frank → Javier -->
-  <line x1="176" y1="206" x2="238" y2="206" stroke="#1d4ed8" stroke-width="2.2"
-        marker-end="url(#arr-blue)"/>
-  <text x="207" y="198" text-anchor="middle" font-size="8.5" fill="#1d4ed8" font-style="italic">authorizes</text>
-
-  <!-- ─── JAVIER  (center, sovereign) ─── -->
-  <rect x="238" y="112" width="162" height="190" rx="11" fill="#d1fae5" stroke="#059669"
-        stroke-width="3" filter="url(#glow)"/>
-  <!-- Shield badge top -->
-  <text x="319" y="150" text-anchor="middle" font-size="30">🛡️</text>
-  <text x="319" y="182" text-anchor="middle" font-size="16" font-weight="800" fill="#064e3b">Javier</text>
-  <text x="319" y="200" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">Sovereign Agent</text>
-  <line x1="258" y1="210" x2="380" y2="210" stroke="#a7f3d0" stroke-width="1"/>
-  <text x="319" y="224" text-anchor="middle" font-size="8.5" fill="#065f46">did:key:z6MkJavier…</text>
-  <text x="319" y="239" text-anchor="middle" font-size="8.5" fill="#065f46">Frank's authorized actor</text>
-  <text x="319" y="254" text-anchor="middle" font-size="8.5" fill="#065f46">holds keys · acts on Frank's</text>
-  <text x="319" y="268" text-anchor="middle" font-size="8.5" fill="#065f46">behalf in the world</text>
-  <text x="319" y="285" text-anchor="middle" font-size="8" fill="#6ee7b7">A2A endpoint · VC authority</text>
-  <text x="319" y="297" text-anchor="middle" font-size="8" fill="#6ee7b7">pod ACL manager</text>
-
-  <!-- ─── ARROWS from Javier to right branches ─── -->
-
-  <!-- → SOLID Pod (diagonal up-right) -->
-  <line x1="400" y1="158" x2="480" y2="108" stroke="#059669" stroke-width="2.2"
-        marker-end="url(#arr-green)"/>
-
-  <!-- → Agent Mesh (nearly horizontal, slight down) -->
-  <line x1="400" y1="206" x2="480" y2="215" stroke="#0284c7" stroke-width="2.2"
-        marker-end="url(#arr-sky)"/>
-
-  <!-- → ZK Proofs (diagonal down-right) -->
-  <line x1="400" y1="254" x2="480" y2="310" stroke="#7c3aed" stroke-width="2.2"
-        marker-end="url(#arr-purple)"/>
-
-  <!-- ─── SOLID POD  (top-right) ─── -->
-  <rect x="480" y="58" width="234" height="100" rx="8" fill="#dcfce7" stroke="#16a34a"
-        stroke-width="2" filter="url(#shadow)"/>
-  <text x="597" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">🗄  SOLID Pod</text>
-  <text x="597" y="100" text-anchor="middle" font-size="10" fill="#166534">Frank's personal data store</text>
-  <text x="597" y="116" text-anchor="middle" font-size="9" fill="#15803d">Encrypted · Self-hosted</text>
-  <text x="597" y="131" text-anchor="middle" font-size="9" fill="#15803d">Apps request access · Frank revokes anytime</text>
-  <text x="597" y="146" text-anchor="middle" font-size="8.5" fill="#16a34a">RecordAgent API unchanged — just swap store</text>
-
-  <!-- ─── AGENT MESH  (mid-right) ─── -->
-  <rect x="480" y="173" width="234" height="84" rx="8" fill="#e0f2fe" stroke="#0284c7"
-        stroke-width="2" filter="url(#shadow)"/>
-  <text x="597" y="197" text-anchor="middle" font-size="12" font-weight="700" fill="#0369a1">🤝  Agent Mesh  (A2A)</text>
-  <text x="597" y="215" text-anchor="middle" font-size="10" fill="#075985">Doctor · Attorney · Contractor agents</text>
-  <text x="597" y="231" text-anchor="middle" font-size="9" fill="#0284c7">Agent2Agent protocol · DID-authenticated</text>
-  <text x="597" y="248" text-anchor="middle" font-size="9" fill="#0284c7">Javier books, negotiates, delegates</text>
-
-  <!-- ─── ZK PROOFS  (bottom-right) ─── -->
-  <rect x="480" y="271" width="234" height="88" rx="8" fill="#f3e8ff" stroke="#7c3aed"
-        stroke-width="2" filter="url(#shadow)"/>
-  <text x="597" y="295" text-anchor="middle" font-size="12" font-weight="700" fill="#6b21a8">🔒  ZK Proofs</text>
-  <text x="597" y="313" text-anchor="middle" font-size="10" fill="#581c87">Share proof, not raw data</text>
-  <text x="597" y="329" text-anchor="middle" font-size="9" fill="#7c3aed">"A1C &lt; 7.5 ✓" — insurer sees proof only</text>
-  <text x="597" y="347" text-anchor="middle" font-size="9" fill="#7c3aed">HIPAA-compatible · privacy by design</text>
-
-  <!-- ─── SUCCESS BANNER ─── -->
-  <rect x="28" y="370" width="684" height="12" rx="6" fill="#86efac" opacity="0.5"/>
-  <text x="370" y="381" text-anchor="middle" font-size="9.5" font-weight="600" fill="#15803d">
-    ✓  Frank owns every layer — identity · data · communication · privacy
-  </text>
-
+     font-family="system-ui,-apple-system,sans-serif">
+<defs>
+  <marker id="arr-blue" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#1d4ed8"/></marker>
+  <marker id="arr-green" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#059669"/></marker>
+  <marker id="arr-sky" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#0284c7"/></marker>
+  <marker id="arr-purple" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#7c3aed"/></marker>
+  <filter id="shadow" x="-5%" y="-5%" width="115%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/></filter>
+  <filter id="glow" x="-12%" y="-12%" width="128%" height="134%"><feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#059669" flood-opacity="0.35"/></filter>
+</defs>
+<rect x="0" y="0" width="740" height="390" fill="#f0fdf4" rx="12"/>
+<!-- header -->
+<rect x="0" y="0" width="740" height="56" fill="#064e3b" rx="12"/>
+<rect x="0" y="44" width="740" height="12" fill="#064e3b" rx="0"/>
+<text x="370" y="26" text-anchor="middle" font-size="14" fill="#d1fae5" font-weight="700" letter-spacing="0.3">Web 3.0  —  Javier as a Sovereign Agent</text>
+<text x="370" y="44" text-anchor="middle" font-size="10" fill="#6ee7b7">TrustedPlan+ · target state</text>
+<!-- Frank DID -->
+<rect x="18" y="156" width="158" height="100" fill="#dbeafe" rx="9" stroke="#1d4ed8" stroke-width="2" filter="url(#shadow)"/>
+<text x="97" y="184" text-anchor="middle" font-size="24" fill="#000">🔑</text>
+<text x="97" y="208" text-anchor="middle" font-size="13" fill="#1e40af" font-weight="700">Frank</text>
+<text x="97" y="224" text-anchor="middle" font-size="8.5" fill="#1d4ed8">did:key:z6MkFrank…</text>
+<text x="97" y="238" text-anchor="middle" font-size="8.5" fill="#3b82f6">self-sovereign identity</text>
+<text x="97" y="250" text-anchor="middle" font-size="8" fill="#60a5fa">cryptographic · no middleman</text>
+<line x1="176" y1="206" x2="238" y2="207" stroke="#1d4ed8" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+<text x="207" y="198" text-anchor="middle" font-size="8.5" fill="#1d4ed8" font-style="italic">authorizes</text>
+<!-- Javier sovereign agent -->
+<rect x="238" y="112" width="162" height="190" fill="#d1fae5" rx="11" stroke="#059669" stroke-width="3" filter="url(#glow)"/>
+<text x="319" y="150" text-anchor="middle" font-size="30" fill="#000">🛡</text>
+<text x="319" y="182" text-anchor="middle" font-size="16" fill="#064e3b" font-weight="700">Javier</text>
+<text x="319" y="200" text-anchor="middle" font-size="10" fill="#047857" font-weight="700">Sovereign Agent</text>
+<line x1="256" y1="210" x2="382" y2="210" stroke="#a7f3d0" stroke-width="1"/>
+<text x="319" y="224" text-anchor="middle" font-size="8.5" fill="#065f46">did:key:z6MkJavier…</text>
+<text x="319" y="239" text-anchor="middle" font-size="8.5" fill="#065f46">Frank's authorized actor</text>
+<text x="319" y="254" text-anchor="middle" font-size="8.5" fill="#065f46">holds keys · acts on Frank's</text>
+<text x="319" y="269" text-anchor="middle" font-size="8.5" fill="#065f46">behalf in the world</text>
+<text x="319" y="285" text-anchor="middle" font-size="8" fill="#6ee7b7">A2A endpoint · VC authority</text>
+<text x="319" y="297" text-anchor="middle" font-size="8" fill="#6ee7b7">pod ACL manager</text>
+<!-- branch arrows + boxes -->
+<line x1="400" y1="158" x2="480" y2="108" stroke="#059669" stroke-width="2.2" marker-end="url(#arr-green)"/>
+<rect x="480" y="58" width="234" height="100" fill="#dcfce7" rx="8" stroke="#16a34a" stroke-width="2" filter="url(#shadow)"/>
+<text x="597" y="82" text-anchor="middle" font-size="12" fill="#15803d" font-weight="700">🗄  SOLID Pod</text>
+<text x="597" y="102" text-anchor="middle" font-size="10" fill="#166534">Frank's personal data store</text>
+<text x="597" y="117" text-anchor="middle" font-size="9" fill="#15803d">Encrypted · Self-hosted</text>
+<text x="597" y="131" text-anchor="middle" font-size="9" fill="#15803d">Apps request access · Frank revokes</text>
+<text x="597" y="145" text-anchor="middle" font-size="8.5" fill="#16a34a">RecordAgent API unchanged — swap store</text>
+<line x1="400" y1="207" x2="480" y2="215" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arr-sky)"/>
+<rect x="480" y="173" width="234" height="84" fill="#e0f2fe" rx="8" stroke="#0284c7" stroke-width="2" filter="url(#shadow)"/>
+<text x="597" y="197" text-anchor="middle" font-size="12" fill="#0369a1" font-weight="700">🤝  Agent Mesh  (A2A)</text>
+<text x="597" y="217" text-anchor="middle" font-size="10" fill="#075985">Doctor · Attorney · Contractor agents</text>
+<text x="597" y="232" text-anchor="middle" font-size="9" fill="#0284c7">Agent2Agent protocol · DID-auth</text>
+<text x="597" y="246" text-anchor="middle" font-size="9" fill="#0284c7">Javier books, negotiates, delegates</text>
+<line x1="400" y1="256" x2="480" y2="315" stroke="#7c3aed" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+<rect x="480" y="271" width="234" height="88" fill="#f3e8ff" rx="8" stroke="#7c3aed" stroke-width="2" filter="url(#shadow)"/>
+<text x="597" y="295" text-anchor="middle" font-size="12" fill="#6b21a8" font-weight="700">🔒  ZK Proofs</text>
+<text x="597" y="315" text-anchor="middle" font-size="10" fill="#581c87">Share proof, not raw data</text>
+<text x="597" y="330" text-anchor="middle" font-size="9" fill="#7c3aed">"A1C &lt; 7.5" — insurer sees proof only</text>
+<text x="597" y="344" text-anchor="middle" font-size="9" fill="#7c3aed">HIPAA-compatible · privacy by design</text>
+<!-- success banner -->
+<rect x="28" y="368" width="684" height="14" fill="#86efac" rx="6" opacity="0.5"/>
+<text x="370" y="379" text-anchor="middle" font-size="9.5" fill="#15803d" font-weight="700">✓  Frank owns every layer — identity · data · communication · privacy</text>
 </svg>

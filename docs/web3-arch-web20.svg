@@ -1,114 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 358"
-     font-family="system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-
-  <defs>
-    <!-- Arrow markers -->
-    <marker id="arr-solid" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0,9 3,0 6" fill="#64748b"/>
-    </marker>
-    <marker id="arr-dash" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0,9 3,0 6" fill="#94a3b8"/>
-    </marker>
-    <!-- Subtle card shadow filter -->
-    <filter id="shadow" x="-5%" y="-5%" width="115%" height="130%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/>
-    </filter>
-  </defs>
-
-  <!-- ─── BACKGROUND ─── -->
-  <rect width="740" height="358" rx="12" fill="#f8fafc"/>
-
-  <!-- ─── HEADER ─── -->
-  <rect x="0" y="0" width="740" height="56" rx="12" fill="#1e293b"/>
-  <rect x="0" y="44" width="740" height="12" fill="#1e293b"/>
-  <text x="370" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#f1f5f9"
-        letter-spacing="0.3">Web 2.0  —  Javier as an App in Others' Platforms</text>
-  <text x="370" y="44" text-anchor="middle" font-size="10" fill="#94a3b8">BirthPlan · current state</text>
-
-  <!-- ─── MAIN FLOW ROW  (y ≈ 108) ─── -->
-
-  <!-- FRANK -->
-  <circle cx="68" cy="105" r="26" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
-  <text x="68" y="113" text-anchor="middle" font-size="24">🧑</text>
-  <text x="68" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">Frank</text>
-
-  <!-- Arrow Frank → Browser -->
-  <line x1="95" y1="105" x2="150" y2="105" stroke="#64748b" stroke-width="1.8"
-        marker-end="url(#arr-solid)"/>
-
-  <!-- BROWSER / iOS -->
-  <rect x="150" y="82" width="118" height="46" rx="7" fill="#e0f2fe" stroke="#0284c7"
-        stroke-width="1.5" filter="url(#shadow)"/>
-  <text x="209" y="101" text-anchor="middle" font-size="11" font-weight="600" fill="#0c4a6e">Browser</text>
-  <text x="209" y="118" text-anchor="middle" font-size="10" fill="#0369a1">/ iPhone</text>
-
-  <!-- Arrow Browser → Javier -->
-  <line x1="268" y1="105" x2="318" y2="105" stroke="#64748b" stroke-width="1.8"
-        marker-end="url(#arr-solid)"/>
-
-  <!-- JAVIER box — hero element -->
-  <rect x="318" y="68" width="140" height="74" rx="9" fill="#ccfbf1" stroke="#0f766e"
-        stroke-width="2.5" filter="url(#shadow)"/>
-  <text x="388" y="96" text-anchor="middle" font-size="15" font-weight="800" fill="#064e3b">Javier</text>
-  <text x="388" y="114" text-anchor="middle" font-size="9.5" fill="#065f46">Personal Assistant</text>
-  <text x="388" y="129" text-anchor="middle" font-size="9.5" fill="#065f46">(Flask app)</text>
-
-  <!-- Arrow Javier → Anthropic -->
-  <line x1="458" y1="105" x2="510" y2="105" stroke="#64748b" stroke-width="1.8"
-        marker-end="url(#arr-solid)"/>
-
-  <!-- ANTHROPIC / Claude -->
-  <rect x="510" y="76" width="205" height="58" rx="7" fill="#ede9fe" stroke="#7c3aed"
-        stroke-width="1.5" filter="url(#shadow)"/>
-  <text x="612" y="99" text-anchor="middle" font-size="11" font-weight="700" fill="#4c1d95">Anthropic API</text>
-  <text x="612" y="115" text-anchor="middle" font-size="10" fill="#6d28d9">Claude — sees all context</text>
-  <text x="612" y="128" text-anchor="middle" font-size="9" fill="#7c3aed">Anthropic-owned infra</text>
-
-  <!-- ─── DASHED DEPENDENCY LINES ─── -->
-  <!-- Vertical drop from Javier center -->
-  <line x1="388" y1="142" x2="388" y2="178" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <!-- Horizontal rail -->
-  <line x1="200" y1="178" x2="590" y2="178" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <!-- Drop arrows to three platforms -->
-  <line x1="200" y1="178" x2="200" y2="198" stroke="#cbd5e1" stroke-width="1.5"
-        stroke-dasharray="5,3" marker-end="url(#arr-dash)"/>
-  <line x1="388" y1="178" x2="388" y2="198" stroke="#cbd5e1" stroke-width="1.5"
-        stroke-dasharray="5,3" marker-end="url(#arr-dash)"/>
-  <line x1="590" y1="178" x2="590" y2="198" stroke="#cbd5e1" stroke-width="1.5"
-        stroke-dasharray="5,3" marker-end="url(#arr-dash)"/>
-  <!-- Label -->
-  <text x="388" y="174" text-anchor="middle" font-size="8.5" fill="#94a3b8" font-style="italic">Javier depends on ↓</text>
-
-  <!-- ─── PLATFORM BOXES  (orange = externally owned) ─── -->
-
-  <!-- Google Drive -->
-  <rect x="112" y="198" width="176" height="68" rx="7" fill="#fff7ed" stroke="#f97316"
-        stroke-width="2" filter="url(#shadow)"/>
-  <text x="200" y="222" text-anchor="middle" font-size="19">☁️</text>
-  <text x="200" y="242" text-anchor="middle" font-size="11" font-weight="700" fill="#c2410c">Google Drive</text>
-  <text x="200" y="258" text-anchor="middle" font-size="9" fill="#ea580c">data store · Google owns · can read</text>
-
-  <!-- Gmail -->
-  <rect x="305" y="198" width="166" height="68" rx="7" fill="#fff7ed" stroke="#f97316"
-        stroke-width="2" filter="url(#shadow)"/>
-  <text x="388" y="222" text-anchor="middle" font-size="19">✉️</text>
-  <text x="388" y="242" text-anchor="middle" font-size="11" font-weight="700" fill="#c2410c">Gmail</text>
-  <text x="388" y="258" text-anchor="middle" font-size="9" fill="#ea580c">email channel · Google reads</text>
-
-  <!-- Twilio -->
-  <rect x="508" y="198" width="164" height="68" rx="7" fill="#fff7ed" stroke="#f97316"
-        stroke-width="2" filter="url(#shadow)"/>
-  <text x="590" y="222" text-anchor="middle" font-size="19">📱</text>
-  <text x="590" y="242" text-anchor="middle" font-size="11" font-weight="700" fill="#c2410c">Twilio</text>
-  <text x="590" y="258" text-anchor="middle" font-size="9" fill="#ea580c">SMS channel · Twilio-owned</text>
-
-  <!-- ─── WARNING BANNER ─── -->
-  <rect x="28" y="284" width="684" height="58" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
-  <text x="370" y="307" text-anchor="middle" font-size="12" font-weight="700" fill="#dc2626">
-    ⚠  Frank is a user of platforms — not an owner
-  </text>
-  <text x="370" y="325" text-anchor="middle" font-size="10" fill="#b91c1c">
-    Any platform can read his data · change terms · go dark · sell to a competitor
-  </text>
-
+     font-family="system-ui,-apple-system,sans-serif">
+<defs>
+  <marker id="arr" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#64748b"/></marker>
+  <marker id="arr-dash" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#94a3b8"/></marker>
+  <filter id="shadow" x="-5%" y="-5%" width="115%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/></filter>
+</defs>
+<rect x="0" y="0" width="740" height="358" fill="#f8fafc" rx="12"/>
+<!-- header -->
+<rect x="0" y="0" width="740" height="56" fill="#1e293b" rx="12"/>
+<rect x="0" y="44" width="740" height="12" fill="#1e293b" rx="0"/>
+<text x="370" y="26" text-anchor="middle" font-size="14" fill="#f1f5f9" font-weight="700" letter-spacing="0.3">Web 2.0  —  Javier as an App in Others' Platforms</text>
+<text x="370" y="44" text-anchor="middle" font-size="10" fill="#94a3b8">BirthPlan · current state</text>
+<!-- main flow -->
+<circle cx="68" cy="105" r="26" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+<text x="68" y="113" text-anchor="middle" font-size="24" fill="#000">🧑</text>
+<text x="68" y="139" text-anchor="middle" font-size="11" fill="#1d4ed8" font-weight="700">Frank</text>
+<line x1="95" y1="105" x2="150" y2="105" stroke="#64748b" stroke-width="1.8" marker-end="url(#arr)"/>
+<rect x="150" y="82" width="118" height="46" fill="#e0f2fe" rx="7" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<text x="209" y="100" text-anchor="middle" font-size="11" fill="#0c4a6e" font-weight="700">Browser</text>
+<text x="209" y="116" text-anchor="middle" font-size="10" fill="#0369a1">/ iPhone</text>
+<line x1="268" y1="105" x2="318" y2="105" stroke="#64748b" stroke-width="1.8" marker-end="url(#arr)"/>
+<rect x="318" y="68" width="140" height="74" fill="#ccfbf1" rx="9" stroke="#0f766e" stroke-width="2.5" filter="url(#shadow)"/>
+<text x="388" y="94" text-anchor="middle" font-size="15" fill="#064e3b" font-weight="700">Javier</text>
+<text x="388" y="112" text-anchor="middle" font-size="9.5" fill="#065f46">Personal Assistant</text>
+<text x="388" y="127" text-anchor="middle" font-size="9.5" fill="#065f46">(Flask app)</text>
+<line x1="458" y1="105" x2="510" y2="105" stroke="#64748b" stroke-width="1.8" marker-end="url(#arr)"/>
+<rect x="510" y="76" width="205" height="58" fill="#ede9fe" rx="7" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<text x="612" y="99" text-anchor="middle" font-size="11" fill="#4c1d95" font-weight="700">Anthropic API</text>
+<text x="612" y="115" text-anchor="middle" font-size="10" fill="#6d28d9">Claude — sees all context</text>
+<text x="612" y="128" text-anchor="middle" font-size="9" fill="#7c3aed">Anthropic-owned infra</text>
+<!-- dependency rails -->
+<line x1="388" y1="142" x2="388" y2="178" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="200" y1="178" x2="590" y2="178" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="388" y="174" text-anchor="middle" font-size="8.5" fill="#94a3b8" font-style="italic">Javier depends on ↓</text>
+<line x1="200" y1="178" x2="200" y2="196" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-dash)"/>
+<line x1="388" y1="178" x2="388" y2="196" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-dash)"/>
+<line x1="590" y1="178" x2="590" y2="196" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-dash)"/>
+<!-- platform boxes -->
+<rect x="112" y="198" width="176" height="68" fill="#fff7ed" rx="7" stroke="#f97316" stroke-width="2" filter="url(#shadow)"/>
+<text x="200" y="220" text-anchor="middle" font-size="20" fill="#7a7a7a">☁</text>
+<text x="200" y="240" text-anchor="middle" font-size="11" fill="#c2410c" font-weight="700">Google Drive</text>
+<text x="200" y="255" text-anchor="middle" font-size="9" fill="#ea580c">data store · Google owns · can read</text>
+<rect x="305" y="198" width="166" height="68" fill="#fff7ed" rx="7" stroke="#f97316" stroke-width="2" filter="url(#shadow)"/>
+<text x="388" y="220" text-anchor="middle" font-size="20" fill="#7a7a7a">✉</text>
+<text x="388" y="240" text-anchor="middle" font-size="11" fill="#c2410c" font-weight="700">Gmail</text>
+<text x="388" y="255" text-anchor="middle" font-size="9" fill="#ea580c">email channel · Google reads</text>
+<rect x="508" y="198" width="164" height="68" fill="#fff7ed" rx="7" stroke="#f97316" stroke-width="2" filter="url(#shadow)"/>
+<text x="590" y="220" text-anchor="middle" font-size="20" fill="#7a7a7a">☎</text>
+<text x="590" y="240" text-anchor="middle" font-size="11" fill="#c2410c" font-weight="700">Twilio</text>
+<text x="590" y="255" text-anchor="middle" font-size="9" fill="#ea580c">SMS channel · Twilio-owned</text>
+<!-- warning banner -->
+<rect x="28" y="284" width="684" height="58" fill="#fef2f2" rx="8" stroke="#fca5a5" stroke-width="1.5"/>
+<text x="370" y="306" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="700">⚠  Frank is a user of platforms — not an owner</text>
+<text x="370" y="324" text-anchor="middle" font-size="10" fill="#b91c1c">Any platform can read his data · change terms · go dark · sell to a competitor</text>
 </svg>

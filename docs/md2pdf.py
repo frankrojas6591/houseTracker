@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-import tempfile
 from pathlib import Path
 
 import markdown
@@ -30,6 +29,7 @@ pre code { background: none; padding: 0; }
 ul, ol  { margin: 4px 0; padding-left: 18px; }
 li      { margin-bottom: 2px; }
 hr      { border: none; border-top: 1px solid #ccc; margin: 12px 0; }
+img     { max-width: 100%; height: auto; display: block; margin: 8px 0; }
 """
 
 NEWPAGE_MD  = r'\newpage'
@@ -47,13 +47,8 @@ def convert(md_path: Path) -> Path:
         f'<style>{CSS}</style></head><body>{body}</body></html>'
     )
 
-    with tempfile.NamedTemporaryFile(suffix='.html', mode='w',
-                                    encoding='utf-8', delete=False) as f:
-        f.write(html)
-        tmp = f.name
-
-    HTML(filename=tmp).write_pdf(str(pdf_path))
-    Path(tmp).unlink(missing_ok=True)
+    # base_url tells WeasyPrint where to resolve relative image paths (SVGs, etc.)
+    HTML(string=html, base_url=md_path.parent.as_uri()).write_pdf(str(pdf_path))
     return pdf_path
 
 

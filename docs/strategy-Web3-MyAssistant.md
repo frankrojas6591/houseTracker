@@ -9,47 +9,38 @@
 ## Contents
 
 - [1. lifeTracker's Web 3.0 Story](#1-lifetrackers-web-30-story)
-  - [1.1 The Two Web 3.0s — Which One Matters Here?](#11-the-two-web-30s--which-one-matters-here)
-  - [1.1a The One Sentence Summary](#11a-the-one-sentence-summary)
   - [1.2 Web 2.0 Javier — Trapped in Platforms](#12-what-web-20-javier-looks-like-birthplan)
   - [1.3 Web 3.0 Javier — Sovereign Agent](#13-what-web-30-javier-looks-like-trustedplan)
 - [2. The Relevant Web 3.0 Technologies](#2-the-relevant-web-30-technologies)
-  - [2.1 Self-Sovereign Identity (SSI)](#21-self-sovereign-identity-ssi--w3c-dids--verifiable-credentials)
-  - [2.2 SOLID Pods — Personal Data Sovereignty](#22-solid-pods--personal-data-sovereignty)
-  - [2.3 Agent-to-Agent Protocols (MCP + A2A)](#23-agent-to-agent-protocols-mcp--a2a)
-  - [2.4 Zero-Knowledge Proofs (ZKPs)](#24-zero-knowledge-proofs-zkps--share-proof-not-data)
-  - [2.5 Smart Contracts — Estate Execution](#25-smart-contracts--estate-execution-crypto-web3-intersection)
 - [3. Web 2.0 → Web 3.0 Evolution Map](#3-web-20--web-30-evolution-map)
 - [4. Technology Readiness Matrix](#4-technology-readiness-matrix)
 - [5. Migration Timetable](#5-migration-timetable)
-  - [Now — BirthPlan (Year 1)](#now--birthplan-year-1-build-web-20-right)
-  - [5.1 Year 2 — Identity + Agent Protocols](#51-year-2--web-25-identity--agent-protocols)
-  - [5.2 Year 3 — SOLID + Agent Mesh](#52-year-3--web-30-foundation-solid--agent-mesh)
-  - [5.3 Year 4+ — ZK + Smart Contracts](#53-year-4--full-autonomy-zk--smart-contracts)
-  - [5.4 What This Means for Javier's Identity](#54-what-this-means-for-javiers-identity)
-  - [5.5 What NOT to Build (Web 3.0 Traps)](#55-what-not-to-build-web-30-traps)
 
 ---
 
 ## 1. lifeTracker's Web 3.0 story
 
-### 1.1 The Two Web 3.0s — Which One Matters Here?
+### 1.1 Understanding Web 3.0
 
-Two movements share the "Web 3.0" name. They are not the same thing.
+It is 2026 and most of the world lives in "Web 2.0" - a complex set of platforms that hold data and systems of the world.
 
-| | **Crypto Web3** | **Semantic/Agent Web3** |
-|---|---|---|
-| **Core idea** | Decentralized finance, NFTs, token economies | AI agents acting autonomously; machine-readable world; user-owned data |
-| **Stack** | Ethereum, Solana, IPFS, DeFi protocols | DIDs, Verifiable Credentials, SOLID pods, Agent2Agent, MCP |
-| **For Javier?** | Peripheral — estate smart contracts, maybe | **Central — this IS the future of personal AI** |
-| **Maturity** | Boom/bust cycles; speculative | Steady W3C standards; production in 2025–2026 |
-| **Our bet** | 10% (estate smart contracts, Year 3+) | 90% (identity, data sovereignty, agent mesh) |
+The term "Web 3.0" refers to the next generation where there are no platforms and data/systems are personal and AI enabled - "Agentic".  Specifically, the table below shows key areas of the Web 3.0 world:
 
-**lifeTracker's Web 3.0 story is not about crypto. It is about Javier becoming a sovereign agent — owning principal's data, speaking to the world on the principal's behalf, without middlemen.**
+| | **Semantic/Agent Web3** |
+|---|---|
+| **Core idea** | AI agents acting autonomously; machine-readable world; user-owned data |
+| **Stack** | DIDs, Verifiable Credentials, SOLID pods, Agent2Agent, MCP |
+| **For Javier?** | **Central — this IS the future of personal AI** |
+| **Maturity** | Steady W3C standards; production in 2025–2026 |
+| **Our bet** | 90% (identity, data sovereignty, agent mesh) |
 
-## 1.1a The One Sentence Summary
+In short, this aligns very nicely with key design principles for the concept of my personal assistant `Javier` (hah-vee-ay), ie. my trusted agent, my **lifeTracker**. 
 
-> **Build a clean Web 2.0 assistant now. Every abstraction layer created today (RecordAgent, UANS, UserContext, MCP tools) is a Web 3.0 swap point later — and Javier (lifeTracker Assistant) evolves from an app into a sovereign agent who holds the principal's keys, owns their data, and speaks to the world on their behalf.**
+**lifeTracker's Web 3.0 story is about Javier becoming a sovereign agent — owning principal's data, speaking to the world on the principal's behalf, without middlemen.**
+
+## 1.1a The Roadmap:
+
+> **Today, build a clean Web 2.0 assistant now. Every abstraction layer created today (RecordAgent, UANS, UserContext, MCP tools) is a Web 3.0 swap point later — and Javier (lifeTracker Assistant) evolves from an app into a sovereign agent who holds the principal's keys, owns their data, and speaks to the world on their behalf.**
 
 
 ---
