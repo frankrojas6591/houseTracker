@@ -255,19 +255,26 @@ def build_web20():
 # ══════════════════════════════════════════════════════════════════════════════
 W30, H30 = W20, H20   # identical canvas — parallelism is intentional
 
+# Web 3.0 replaces the 3 platform interface chips with 2 AI-native interfaces
+_CHANNELS_30 = [
+    ("Agent Mesh",  "AI talks to AI — negotiate, book, delegate",  "#e0f2fe", "#0284c7"),
+    ("ZK Proof",    "prove facts without sharing your raw data",    "#f3e8ff", "#7c3aed"),
+]
+
 
 def build_web30():
-    # Same internal geometry as build_web20()
+    # Interface chips are taller (CH_H=30 vs 22) to fit name+statement;
+    # agent boxes shrink by same amount (AG_H=22 vs 30) — J box height unchanged.
     CH_Y   = JAV_Y + 4
-    CH_H   = 22
-    SEP1_Y = CH_Y + CH_H + 3   # 187
-    ID_ICN = SEP1_Y + 15       # 202
-    SEP2_Y = SEP1_Y + 42       # 229
-    AI_Y   = SEP2_Y + 3        # 232
+    CH_H   = 30                 # taller: name + 1-line statement
+    SEP1_Y = CH_Y + CH_H + 3   # 195
+    ID_ICN = SEP1_Y + 15       # 210
+    SEP2_Y = SEP1_Y + 42       # 237
+    AI_Y   = SEP2_Y + 3        # 240
     AI_H   = 26
-    SEP3_Y = AI_Y + AI_H + 2   # 260
-    AG_Y   = SEP3_Y + 3        # 263
-    AG_H   = 30
+    SEP3_Y = AI_Y + AI_H + 2   # 268
+    AG_Y   = SEP3_Y + 3        # 271
+    AG_H   = 22                 # compressed to compensate for taller chips
 
     ag_w        = (JAV_W - 5 * 4) // 4
     ag_x_starts = [JAV_X + 4 + i*(ag_w + 4) for i in range(4)]
@@ -305,17 +312,17 @@ def build_web30():
              stroke="#059669", sw=2.5, filt="shadow"),
     ]
 
-    # interface chips — identical to Web 2.0 (same platforms, same interfaces)
+    # 2 wide interface chips — Agent Mesh + ZK Proof; each shows name + 1-line statement
+    cw30 = 193
     ch_x = JAV_X + 6
-    for icon, label, bg, border in _CHANNELS:
-        cw = 126
-        ccx = ch_x + cw // 2
+    for label, stmt, bg, border in _CHANNELS_30:
+        ccx = ch_x + cw30 // 2
         parts += [
-            rect(ch_x, CH_Y, cw, CH_H, bg, rx=3, stroke=border, sw=0.8),
-            text(ccx, CH_Y+9,  icon,  8, "#000"),
-            text(ccx, CH_Y+18, label, 6.5, border, bold=True),
+            rect(ch_x, CH_Y, cw30, CH_H, bg, rx=3, stroke=border, sw=0.8),
+            text(ccx, CH_Y+12, label, 8.5, border, bold=True),
+            text(ccx, CH_Y+23, stmt,  7,   border, italic=True),
         ]
-        ch_x += cw + 5
+        ch_x += cw30 + 6
 
     parts += [
         sep_line(JAV_X+10, SEP1_Y, JAV_X+JAV_W-10, "#86efac"),
