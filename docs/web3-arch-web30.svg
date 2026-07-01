@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 428" width="100%"
      font-family="system-ui,-apple-system,sans-serif">
 <defs>
+  <marker id="arr" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#64748b"/></marker>
   <marker id="arr-g" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#059669"/></marker>
   <marker id="arr-rev" markerWidth="9" markerHeight="6" refX="1" refY="3" orient="auto"><polygon points="9 0,0 3,9 6" fill="#64748b"/></marker>
   <filter id="shadow" x="-5%" y="-5%" width="115%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/></filter>
@@ -12,6 +13,8 @@
 <text x="250" y="39" text-anchor="middle" font-size="9" fill="#6ee7b7">TrustedPlan+ · target state</text>
 <line x1="198" y1="94" x2="302" y2="94" stroke="#bbf7d0" stroke-width="1.2" stroke-dasharray="5,4"/>
 <line x1="175" y1="117" x2="210" y2="158" stroke="#64748b" stroke-width="1.8" marker-start="url(#arr-rev)" marker-end="url(#arr)"/>
+<rect x="183" y="129" width="18" height="16" fill="#f0fdf4" rx="3"/>
+<text x="192" y="141" text-anchor="middle" font-size="11" fill="#000">📱</text>
 <line x1="325" y1="117" x2="290" y2="158" stroke="#64748b" stroke-width="1.8" marker-start="url(#arr-rev)" marker-end="url(#arr)"/>
 <circle cx="175" cy="94" r="23" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
 <text x="175" y="101" text-anchor="middle" font-size="20" fill="#000">🧑</text>
@@ -35,17 +38,17 @@
 <text x="250" y="258" text-anchor="middle" font-size="9" fill="#d1fae5" font-weight="700">🧠  AI · Knowledge Base</text>
 <line x1="58" y1="268" x2="442" y2="268" stroke="#86efac" stroke-width="1"/>
 <rect x="52" y="271" width="96" height="22" fill="#f0fdf4" rx="4" stroke="#16a34a" stroke-width="1"/>
-<text x="100" y="282" text-anchor="middle" font-size="10" fill="#000">🏠</text>
-<text x="100" y="295" text-anchor="middle" font-size="6.5" fill="#16a34a" font-weight="700">houseAgent</text>
+<text x="100" y="280" text-anchor="middle" font-size="9" fill="#000">🏠</text>
+<text x="100" y="290" text-anchor="middle" font-size="6.5" fill="#16a34a" font-weight="700">houseAgent</text>
 <rect x="152" y="271" width="96" height="22" fill="#eff6ff" rx="4" stroke="#3b82f6" stroke-width="1"/>
-<text x="200" y="282" text-anchor="middle" font-size="10" fill="#000">🏥</text>
-<text x="200" y="295" text-anchor="middle" font-size="6.5" fill="#3b82f6" font-weight="700">medicalAgent</text>
+<text x="200" y="280" text-anchor="middle" font-size="9" fill="#000">🏥</text>
+<text x="200" y="290" text-anchor="middle" font-size="6.5" fill="#3b82f6" font-weight="700">medicalAgent</text>
 <rect x="252" y="271" width="96" height="22" fill="#fefce8" rx="4" stroke="#ca8a04" stroke-width="1"/>
-<text x="300" y="282" text-anchor="middle" font-size="10" fill="#000">💰</text>
-<text x="300" y="295" text-anchor="middle" font-size="6.5" fill="#ca8a04" font-weight="700">moneyAgent</text>
+<text x="300" y="280" text-anchor="middle" font-size="9" fill="#000">💰</text>
+<text x="300" y="290" text-anchor="middle" font-size="6.5" fill="#ca8a04" font-weight="700">moneyAgent</text>
 <rect x="352" y="271" width="96" height="22" fill="#fdf4ff" rx="4" stroke="#9333ea" stroke-width="1"/>
-<text x="400" y="282" text-anchor="middle" font-size="10" fill="#000">📄</text>
-<text x="400" y="295" text-anchor="middle" font-size="6.5" fill="#9333ea" font-weight="700">estateAgent</text>
+<text x="400" y="280" text-anchor="middle" font-size="9" fill="#000">📄</text>
+<text x="400" y="290" text-anchor="middle" font-size="6.5" fill="#9333ea" font-weight="700">estateAgent</text>
 <line x1="100" y1="293" x2="100" y2="316" stroke="#059669" stroke-width="1.4" marker-end="url(#arr-g)"/>
 <line x1="200" y1="293" x2="200" y2="316" stroke="#059669" stroke-width="1.4" marker-end="url(#arr-g)"/>
 <line x1="300" y1="293" x2="300" y2="316" stroke="#059669" stroke-width="1.4" marker-end="url(#arr-g)"/>

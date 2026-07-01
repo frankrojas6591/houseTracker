@@ -166,6 +166,9 @@ def build_web20():
         line(PRINC_CX+PRINC_R, PRINC_CY, WORLD_CX-WORLD_R, WORLD_CY,
              stroke="#cbd5e1", sw=1.2, dash="5,4"),
         bidir_line(PRINC_CX, PRINC_CY+PRINC_R, 210, JAV_Y),
+        # 📱 label at midpoint of Principal→Javier diagonal
+        rect(183, 129, 18, 16, "#f8fafc", rx=3),
+        text(192, 141, "📱", 11, "#000"),
         bidir_line(WORLD_CX, WORLD_CY+WORLD_R, 290, JAV_Y),
         # ── actors ──
         circle(PRINC_CX, PRINC_CY, PRINC_R, "#dbeafe", stroke="#3b82f6", sw=2, filt="shadow"),
@@ -211,8 +214,8 @@ def build_web20():
         acx = ag_centers[i]
         parts += [
             rect(ax, AG_Y, ag_w, AG_H, bg, rx=4, stroke=border, sw=1),
-            text(acx, AG_Y+11, icon,  10, "#000"),
-            text(acx, AG_Y+24, label,  6.5, border, bold=True),
+            text(acx, AG_Y+10, icon,  10, "#000"),
+            text(acx, AG_Y+21, label,  6.5, border, bold=True),
         ]
 
     # 1 line per agent piercing through Javier bottom → data box top
@@ -283,7 +286,8 @@ def build_web30():
     parts = [
         "\n".join([
             "<defs>",
-            f"  {arrow_marker('arr-g', '#059669')}",   # green — owned connection
+            f"  {arrow_marker('arr', '#64748b')}",      # needed by bidir_line
+            f"  {arrow_marker('arr-g', '#059669')}",    # green — owned connection
             f"  {arrow_marker_rev('arr-rev', '#64748b')}",
             f"  {drop_shadow('shadow')}",
             "</defs>",
@@ -299,6 +303,9 @@ def build_web30():
         line(PRINC_CX+PRINC_R, PRINC_CY, WORLD_CX-WORLD_R, WORLD_CY,
              stroke="#bbf7d0", sw=1.2, dash="5,4"),
         bidir_line(PRINC_CX, PRINC_CY+PRINC_R, 210, JAV_Y),
+        # 📱 label at midpoint of Principal→Javier diagonal
+        rect(183, 129, 18, 16, "#f0fdf4", rx=3),
+        text(192, 141, "📱", 11, "#000"),
         bidir_line(WORLD_CX, WORLD_CY+WORLD_R, 290, JAV_Y),
         # ── same actors ──
         circle(PRINC_CX, PRINC_CY, PRINC_R, "#dbeafe", stroke="#3b82f6", sw=2, filt="shadow"),
@@ -343,8 +350,8 @@ def build_web30():
         acx = ag_centers[i]
         parts += [
             rect(ax, AG_Y, ag_w, AG_H, bg, rx=4, stroke=border, sw=1),
-            text(acx, AG_Y+11, icon,  10, "#000"),
-            text(acx, AG_Y+24, label,  6.5, border, bold=True),
+            text(acx, AG_Y+9,  icon,  9,   "#000"),
+            text(acx, AG_Y+19, label, 6.5, border, bold=True),
         ]
 
     # green agent lines → YOUR vault (contrast: gray → foreign platform in Web 2.0)
